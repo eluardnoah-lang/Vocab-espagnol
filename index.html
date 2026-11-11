@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="¡Vocabulario!">
+<meta name="theme-color" content="#f6f1ea">
+<title>¡Vocabulario! – Espagnol</title>
+<style>
+  :root {
+    --bg: #f6f1ea;
+    --card: #ffffff;
+    --ink: #2b2333;
+    --muted: #7a6f80;
+    --line: #e8dfd4;
+    --primary: #e2553f;
+    --primary-dark: #c2402c;
+    --accent: #f2b33d;
+    --good: #2f9e6e;
+    --good-bg: #e2f5ec;
+    --bad: #d6455b;
+    --bad-bg: #fde6ea;
+    --blue: #3b6fd8;
+    --shadow: 0 6px 20px rgba(60, 40, 30, .10);
+    --radius: 22px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1820;
+      --card: #2a2430;
+      --ink: #f4eef7;
+      --muted: #b0a5b6;
+      --line: #3b3342;
+      --good-bg: #183a2c;
+      --bad-bg: #42202a;
+      --shadow: 0 6px 20px rgba(0, 0, 0, .35);
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-user-select: none; user-select: none;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+    overscroll-behavior: none;
+  }
+  button { font: inherit; color: inherit; border: none; cursor: pointer; touch-action: manipulation; }
+  .app {
+    max-width: 900px; margin: 0 auto; min-height: 100%;
+    padding: calc(env(safe-area-inset-top) + 18px) calc(env(safe-area-inset-right) + 22px)
+             calc(env(safe-area-inset-bottom) + 24px) calc(env(safe-area-inset-left) + 22px);
+    display: flex; flex-direction: column;
+  }
+  .screen { display: none; flex: 1; flex-direction: column; animation: fade .25s ease; }
+  .screen.active { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* --- En-tête --- */
+  .topbar { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; min-height: 64px; }
+  .topbar h1 { font-size: 30px; margin: 0; flex: 1; letter-spacing: -.5px; }
+  .topbar h1 span { color: var(--primary); }
+  .topbar h2 { font-size: 24px; margin: 0; flex: 1; text-align: center; }
+  .icon-btn {
+    width: 64px; height: 64px; border-radius: 20px; background: var(--card);
+    box-shadow: var(--shadow); font-size: 28px; display: grid; place-items: center; flex-shrink: 0;
+  }
+  .icon-btn:active { transform: scale(.94); }
+  .spacer { width: 64px; flex-shrink: 0; }
+
+  /* --- Accueil --- */
+  .hero {
+    background: linear-gradient(135deg, #e2553f, #f2b33d);
+    color: #fff; border-radius: var(--radius); padding: 24px 26px; box-shadow: var(--shadow);
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+  }
+  .hero .big { font-size: 46px; font-weight: 800; line-height: 1; }
+  .hero .lbl { opacity: .9; font-size: 16px; margin-top: 4px; }
+  .hero .stat { flex: 1; min-width: 120px; }
+  .hero-bar { width: 100%; height: 14px; background: rgba(255,255,255,.3); border-radius: 99px; overflow: hidden; }
+  .hero-bar div { height: 100%; background: #fff; border-radius: 99px; transition: width .5s; }
+
+  .section-title { font-size: 20px; font-weight: 700; margin: 26px 4px 12px; display: flex; justify-content: space-between; align-items: center; }
+  .link-btn { background: none; color: var(--primary); font-weight: 700; font-size: 18px; padding: 10px 6px; }
+
+  .themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .theme {
+    background: var(--card); border-radius: 18px; padding: 14px 14px 12px; min-height: 92px;
+    box-shadow: var(--shadow); text-align: left; border: 3px solid transparent;
+    display: flex; flex-direction: column; gap: 6px; transition: transform .1s, border-color .15s, opacity .15s;
+  }
+  .theme:active { transform: scale(.96); }
+  .theme.off { opacity: .45; }
+  .theme.on { border-color: var(--primary); }
+  .theme .t-head { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+  .theme .t-emoji { font-size: 26px; }
+  .theme .t-sub { font-size: 14px; color: var(--muted); }
+  .mini-bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; display: flex; }
+  .mini-bar .m { background: var(--good); }
+  .mini-bar .l { background: var(--accent); }
+
+  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .mode {
+    background: var(--card); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+    text-align: left; display: flex; align-items: center; gap: 18px; min-height: 104px;
+  }
+  .mode:active { transform: scale(.97); }
+  .mode .m-emoji { font-size: 44px; width: 70px; height: 70px; border-radius: 20px; display: grid; place-items: center; flex-shrink: 0; }
+  .mode .m-title { font-size: 21px; font-weight: 800; }
+  .mode .m-sub { font-size: 15px; color: var(--muted); margin-top: 3px; }
+  .bg1 { background: #ffe3dc; } .bg2 { background: #fff0cf; } .bg3 { background: #dfe8ff; } .bg4 { background: #def5ea; }
+  @media (prefers-color-scheme: dark) { .bg1,.bg2,.bg3,.bg4 { background: #3a3140; } }
+
+  /* --- Cartes mémoire --- */
+  .progress-line { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+  .progress-line div { height: 100%; background: var(--primary); transition: width .3s; border-radius: 99px; }
+  .seg { display: flex; background: var(--card); border-radius: 18px; padding: 6px; box-shadow: var(--shadow); gap: 6px; margin-bottom: 20px; }
+  .seg button { flex: 1; min-height: 56px; border-radius: 14px; background: transparent; font-weight: 700; font-size: 17px; color: var(--muted); }
+  .seg button.sel { background: var(--primary); color: #fff; }
+
+  .card-wrap { flex: 1; display: flex; align-items: center; justify-content: center; perspective: 1400px; min-height: 340px; }
+  .flashcard {
+    width: 100%; max-width: 640px; height: min(52vh, 440px); min-height: 300px; position: relative;
+    transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3,.7,.3,1.2); background: none; padding: 0;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; border-radius: 30px; box-shadow: var(--shadow);
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center;
+  }
+  .face.front { background: var(--card); }
+  .face.back { background: linear-gradient(135deg, #3b6fd8, #6a5ad8); color: #fff; transform: rotateY(180deg); }
+  .face .flag { font-size: 18px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: .6; position: absolute; top: 24px; }
+  .face .word { font-size: clamp(38px, 7vw, 64px); font-weight: 800; line-height: 1.15; word-break: break-word; }
+  .face .hint { position: absolute; bottom: 22px; font-size: 16px; opacity: .55; }
+  .face .theme-tag { position: absolute; top: 22px; right: 24px; font-size: 26px; }
+  .say {
+    position: absolute; top: 14px; left: 14px; width: 60px; height: 60px; border-radius: 18px;
+    background: rgba(127,127,127,.12); font-size: 26px; display: grid; place-items: center;
+  }
+  .say:active { transform: scale(.92); }
+
+  .answer-row { display: flex; gap: 14px; margin-top: 22px; }
+  .big-btn {
+    flex: 1; min-height: 80px; border-radius: 22px; font-size: 21px; font-weight: 800; box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .1s, opacity .2s;
+  }
+  .big-btn:active { transform: scale(.96); }
+  .big-btn.bad { background: var(--bad); color: #fff; }
+  .big-btn.good { background: var(--good); color: #fff; }
+  .big-btn.primary { background: var(--primary); color: #fff; }
+  .big-btn.neutral { background: var(--card); }
+  .big-btn[disabled] { opacity: .35; pointer-events: none; }
+
+  /* --- Quiz --- */
+  .q-box { background: var(--card); border-radius: 30px; box-shadow: var(--shadow); padding: 34px 24px; text-align: center; position: relative; margin-bottom: 22px; }
+  .q-box .q-label { color: var(--muted); font-size: 17px; font-weight: 600; }
+  .q-box .q-word { font-size: clamp(36px, 6.5vw, 58px); font-weight: 800; margin-top: 10px; word-break: break-word; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 520px) { .options { grid-template-columns: 1fr; } }
+  .opt {
+    background: var(--card); border-radius: 22px; min-height: 96px; padding: 14px 18px; font-size: 23px; font-weight: 700;
+    box-shadow: var(--shadow); border: 3px solid transparent; transition: transform .1s, background .2s;
+  }
+  .opt:active { transform: scale(.97); }
+  .opt.correct { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+  .opt.wrong { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); animation: shake .35s; }
+  .opt.dim { opacity: .45; }
+  .opt[disabled] { pointer-events: none; }
+  @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  .feedback { min-height: 96px; margin-top: 18px; display: flex; align-items: center; }
+  .feedback .big-btn { width: 100%; }
+  .score-pill { background: var(--card); box-shadow: var(--shadow); border-radius: 99px; padding: 10px 18px; font-weight: 800; font-size: 18px; min-width: 64px; text-align: center; }
+
+  /* --- Résultats / Progression --- */
+  .result { text-align: center; padding: 20px 0; }
+  .result .r-emoji { font-size: 90px; }
+  .result .r-score { font-size: 56px; font-weight: 900; margin: 6px 0; }
+  .result .r-msg { font-size: 20px; color: var(--muted); }
+  .list { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-top: 18px; text-align: left; }
+  .list .row { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); font-size: 19px; }
+  .list .row:last-child { border-bottom: none; }
+  .list .row .es { font-weight: 800; flex: 1; }
+  .list .row .fr { color: var(--muted); flex: 1; text-align: right; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stat-card { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); text-align: center; }
+  .stat-card .n { font-size: 38px; font-weight: 900; }
+  .stat-card .t { color: var(--muted); font-size: 15px; font-weight: 600; }
+  .legend { display: flex; gap: 18px; justify-content: center; color: var(--muted); font-size: 15px; margin-top: 12px; flex-wrap: wrap; }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .theme-row { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .theme-row:last-child { border-bottom: none; }
+  .theme-row .tr-head { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .theme-row .tr-head span:last-child { color: var(--muted); font-weight: 600; }
+  .theme-row .mini-bar { height: 12px; }
+  .danger { background: none; color: var(--bad); font-weight: 700; font-size: 18px; padding: 18px; margin: 20px auto 0; display: block; min-height: 60px; }
+  .word-chip { font-size: 13px; padding: 4px 10px; border-radius: 99px; font-weight: 700; flex-shrink: 0; }
+  .chip-new { background: var(--line); color: var(--muted); }
+  .chip-learn { background: #fff0cf; color: #a06d00; }
+  .chip-master { background: var(--good-bg); color: var(--good); }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 30px); transform: translateX(-50%) translateY(120px);
+    background: var(--ink); color: var(--bg); padding: 16px 26px; border-radius: 99px; font-weight: 700; font-size: 17px;
+    transition: transform .3s; z-index: 10; box-shadow: var(--shadow); white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== ACCUEIL ===================== -->
+  <section class="screen active" id="home">
+    <div class="topbar">
+      <h1>¡Vocabulario! <span>🇪🇸</span></h1>
+      <button class="icon-btn" data-go="progress" aria-label="Progression">📊</button>
+    </div>
+
+    <div class="hero">
+      <div class="stat">
+        <div class="big" id="h-master">0</div>
+        <div class="lbl">mots maîtrisés sur 150</div>
+      </div>
+      <div class="stat">
+        <div class="big" id="h-review">0</div>
+        <div class="lbl">mots à revoir</div>
+      </div>
+      <div class="stat">
+        <div class="big" id="h-streak">0🔥</div>
+        <div class="lbl">jours d'affilée</div>
+      </div>
+      <div class="hero-bar"><div id="h-bar" style="width:0"></div></div>
+    </div>
+
+    <div class="section-title">
+      <span>Thèmes <small id="sel-count" style="color:var(--muted);font-weight:600"></small></span>
+      <button class="link-btn" id="toggle-all">Tout sélectionner</button>
+    </div>
+    <div class="themes" id="themes"></div>
+
+    <div class="section-title"><span>S'entraîner</span></div>
+    <div class="modes">
+      <button class="mode" data-start="cards">
+        <div class="m-emoji bg1">🃏</div>
+        <div><div class="m-title">Cartes mémoire</div><div class="m-sub">Touche la carte pour la retourner</div></div>
+      </button>
+      <button class="mode" data-start="quiz-es">
+        <div class="m-emoji bg2">🇪🇸</div>
+        <div><div class="m-title">Quiz espagnol → français</div><div class="m-sub">Trouve la bonne traduction</div></div>
+      </button>
+      <button class="mode" data-start="quiz-fr">
+        <div class="m-emoji bg3">🇫🇷</div>
+        <div><div class="m-title">Quiz français → espagnol</div><div class="m-sub">Trouve le mot espagnol</div></div>
+      </button>
+      <button class="mode" data-start="quiz-mix">
+        <div class="m-emoji bg4">🔀</div>
+        <div><div class="m-title">Quiz mélangé</div><div class="m-sub">Les deux sens au hasard</div></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== CARTES ===================== -->
+  <section class="screen" id="cards">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="Retour">←</button>
+      <h2>Cartes mémoire</h2>
+      <div class="score-pill" id="c-count">0/20</div>
+    </div>
+    <div class="progress-line"><div id="c-prog"></div></div>
+    <div class="seg" id="c-dir">
+      <button data-dir="es" class="sel">Espagnol d'abord</button>
+      <button data-dir="fr">Français d'abord</button>
+    </div>
+    <div class="card-wrap">
+      <div class="flashcard" id="flashcard" role="button" aria-label="Retourner la carte">
+        <div class="face front">
+          <div class="flag" id="c-front-flag">Español</div>
+          <div class="theme-tag" id="c-tag"></div>
+          <div class="word" id="c-front"></div>
+          <div class="hint">👆 Touche pour retourner</div>
+        </div>
+        <div class="face back">
+          <div class="flag" id="c-back-flag">Français</div>
+          <div class="word" id="c-back"></div>
+          <div class="hint">Tu le savais ?</div>
+        </div>
+      </div>
+    </div>
+    <div class="answer-row">
+      <button class="big-btn neutral" id="c-say">🔊 Écouter</button>
+    </div>
+    <div class="answer-row">
+      <button class="big-btn bad" id="c-ko" disabled>😕 À revoir</button>
+      <button class="big-btn good" id="c-ok" disabled>😊 Je savais</button>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="screen" id="quiz">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="Retour">←</button>
+      <h2 id="q-title">Quiz</h2>
+      <div class="score-pill" id="q-count">1/10</div>
+    </div>
+    <div class="progress-line"><div id="q-prog"></div></div>
+    <div class="q-box">
+      <button class="say" id="q-say" aria-label="Écouter">🔊</button>
+      <div class="q-label" id="q-label">Que veut dire…</div>
+      <div class="q-word" id="q-word"></div>
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+  </section>
+
+  <!-- ===================== RÉSULTAT ===================== -->
+  <section class="screen" id="result">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="Accueil">🏠</button>
+      <h2>Résultat</h2>
+      <div class="spacer"></div>
+    </div>
+    <div class="result">
+      <div class="r-emoji" id="r-emoji">🎉</div>
+      <div class="r-score" id="r-score">8/10</div>
+      <div class="r-msg" id="r-msg">Bravo !</div>
+    </div>
+    <div class="answer-row">
+      <button class="big-btn neutral" data-go="home">🏠 Accueil</button>
+      <button class="big-btn primary" id="r-again">🔁 Recommencer</button>
+    </div>
+    <div id="r-list"></div>
+  </section>
+
+  <!-- ===================== PROGRESSION ===================== -->
+  <section class="screen" id="progress">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="Retour">←</button>
+      <h2>Ma progression</h2>
+      <div class="spacer"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="n" id="p-master" style="color:var(--good)">0</div><div class="t">Maîtrisés</div></div>
+      <div class="stat-card"><div class="n" id="p-learn" style="color:#e0a020">0</div><div class="t">En cours</div></div>
+      <div class="stat-card"><div class="n" id="p-new" style="color:var(--muted)">0</div><div class="t">Nouveaux</div></div>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--good)"></i>Maîtrisé</span>
+      <span><i class="dot" style="background:var(--accent)"></i>En cours</span>
+      <span><i class="dot" style="background:var(--line)"></i>Jamais vu</span>
+    </div>
+    <div class="list" id="p-themes"></div>
+    <div class="section-title"><span>Mots les plus difficiles</span></div>
+    <div id="p-hard"></div>
+    <button class="danger" id="reset">🗑 Remettre la progression à zéro</button>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   VOCABULAIRE : 150 mots, classés par thèmes
+   ========================================================= */
+const THEMES = [
+  { id: "salut", name: "Salutations", emoji: "👋", words: [
+    ["hola", "bonjour / salut"], ["adiós", "au revoir"], ["buenos días", "bonjour (le matin)"],
+    ["buenas tardes", "bon après-midi"], ["buenas noches", "bonsoir / bonne nuit"], ["por favor", "s'il te plaît"],
+    ["gracias", "merci"], ["de nada", "de rien"], ["perdón", "pardon"], ["lo siento", "je suis désolé"],
+    ["¿qué tal?", "comment ça va ?"], ["hasta luego", "à plus tard"], ["hasta mañana", "à demain"],
+    ["sí", "oui"], ["no", "non"] ]},
+  { id: "food", name: "Nourriture", emoji: "🍎", words: [
+    ["el pan", "le pain"], ["el agua", "l'eau"], ["la leche", "le lait"], ["el queso", "le fromage"],
+    ["la manzana", "la pomme"], ["la naranja", "l'orange"], ["el plátano", "la banane"], ["la carne", "la viande"],
+    ["el pollo", "le poulet"], ["el pescado", "le poisson (à manger)"], ["el huevo", "l'œuf"], ["el arroz", "le riz"],
+    ["la sopa", "la soupe"], ["el tomate", "la tomate"], ["la patata", "la pomme de terre"], ["el azúcar", "le sucre"],
+    ["la sal", "le sel"], ["el café", "le café"], ["el zumo", "le jus"], ["la fresa", "la fraise"] ]},
+  { id: "body", name: "Corps humain", emoji: "🖐️", words: [
+    ["la cabeza", "la tête"], ["el pelo", "les cheveux"], ["el ojo", "l'œil"], ["la nariz", "le nez"],
+    ["la boca", "la bouche"], ["la oreja", "l'oreille"], ["el diente", "la dent"], ["el cuello", "le cou"],
+    ["el brazo", "le bras"], ["la mano", "la main"], ["el dedo", "le doigt"], ["la pierna", "la jambe"],
+    ["el pie", "le pied"], ["el corazón", "le cœur"], ["la espalda", "le dos"] ]},
+  { id: "family", name: "Famille", emoji: "👨‍👩‍👧", words: [
+    ["la madre", "la mère"], ["el padre", "le père"], ["el hermano", "le frère"], ["la hermana", "la sœur"],
+    ["el hijo", "le fils"], ["la hija", "la fille"], ["el abuelo", "le grand-père"], ["la abuela", "la grand-mère"],
+    ["el tío", "l'oncle"], ["la tía", "la tante"], ["el primo", "le cousin"], ["la familia", "la famille"] ]},
+  { id: "verbs", name: "Verbes courants", emoji: "🏃", words: [
+    ["ser", "être (identité)"], ["estar", "être (état, lieu)"], ["tener", "avoir"], ["hacer", "faire"],
+    ["ir", "aller"], ["venir", "venir"], ["comer", "manger"], ["beber", "boire"], ["hablar", "parler"],
+    ["vivir", "vivre / habiter"], ["querer", "vouloir / aimer"], ["poder", "pouvoir"], ["saber", "savoir"],
+    ["ver", "voir"], ["dar", "donner"], ["decir", "dire"], ["dormir", "dormir"], ["trabajar", "travailler"],
+    ["jugar", "jouer"], ["leer", "lire"], ["escribir", "écrire"], ["abrir", "ouvrir"], ["comprar", "acheter"],
+    ["llegar", "arriver"], ["salir", "sortir"] ]},
+  { id: "colors", name: "Couleurs", emoji: "🎨", words: [
+    ["rojo", "rouge"], ["azul", "bleu"], ["verde", "vert"], ["amarillo", "jaune"], ["negro", "noir"],
+    ["blanco", "blanc"], ["gris", "gris"], ["rosa", "rose"], ["morado", "violet"], ["marrón", "marron"] ]},
+  { id: "numbers", name: "Nombres", emoji: "🔢", words: [
+    ["uno", "un"], ["dos", "deux"], ["tres", "trois"], ["cuatro", "quatre"], ["cinco", "cinq"], ["seis", "six"],
+    ["siete", "sept"], ["ocho", "huit"], ["nueve", "neuf"], ["diez", "dix"], ["veinte", "vingt"], ["cien", "cent"] ]},
+  { id: "animals", name: "Animaux", emoji: "🐶", words: [
+    ["el perro", "le chien"], ["el gato", "le chat"], ["el caballo", "le cheval"], ["la vaca", "la vache"],
+    ["el pájaro", "l'oiseau"], ["el pez", "le poisson (vivant)"], ["el ratón", "la souris"], ["el cerdo", "le cochon"],
+    ["la oveja", "le mouton"], ["el conejo", "le lapin"], ["el león", "le lion"], ["la mariposa", "le papillon"] ]},
+  { id: "home", name: "Maison & objets", emoji: "🏠", words: [
+    ["la casa", "la maison"], ["la puerta", "la porte"], ["la ventana", "la fenêtre"], ["la mesa", "la table"],
+    ["la silla", "la chaise"], ["la cama", "le lit"], ["la cocina", "la cuisine"], ["el baño", "la salle de bain"],
+    ["la habitación", "la chambre"], ["la llave", "la clé"], ["el libro", "le livre"], ["el coche", "la voiture"] ]},
+  { id: "time", name: "Temps & jours", emoji: "📅", words: [
+    ["el día", "le jour"], ["la noche", "la nuit"], ["hoy", "aujourd'hui"], ["mañana", "demain"], ["ayer", "hier"],
+    ["la semana", "la semaine"], ["el mes", "le mois"], ["el año", "l'année"], ["el lunes", "lundi"], ["el domingo", "dimanche"] ]},
+  { id: "adj", name: "Adjectifs", emoji: "✨", words: [
+    ["grande", "grand"], ["pequeño", "petit"], ["bueno", "bon"], ["malo", "mauvais"], ["bonito", "joli"],
+    ["feliz", "heureux"], ["cansado", "fatigué"] ]},
+];
+
+const WORDS = [];
+THEMES.forEach(t => t.words.forEach(([es, fr]) => WORDS.push({ es, fr, theme: t.id, emoji: t.emoji })));
+const THEME_BY_ID = Object.fromEntries(THEMES.map(t => [t.id, t]));
+
+/* =========================================================
+   SAUVEGARDE (localStorage)
+   Chaque mot a une « boîte » de 0 à 5 (système de Leitner) :
+   bonne réponse → boîte +1, mauvaise réponse → retour à 0.
+   ========================================================= */
+const STORE_KEY = "vocab-espagnol-v1";
+const MAX_BOX = 5, MASTER_BOX = 4;
+let state = load();
+
+function load() {
+  const empty = { words: {}, selected: THEMES.map(t => t.id), cardDir: "es", streak: 0, lastDay: null };
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (s && typeof s === "object") return Object.assign(empty, s);
+  } catch (e) {}
+  return empty;
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function ws(w) { return state.words[w.es] || { box: 0, ok: 0, ko: 0, seen: 0, last: 0 }; }
+function status(w) {
+  const s = state.words[w.es];
+  if (!s || !s.seen) return "new";
+  return s.box >= MASTER_BOX ? "master" : "learn";
+}
+function today() { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function touchStreak() {
+  const t = today();
+  if (state.lastDay === t) return;
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yest = y.getFullYear() + "-" + (y.getMonth() + 1) + "-" + y.getDate();
+  state.streak = state.lastDay === yest ? (state.streak || 0) + 1 : 1;
+  state.lastDay = t;
+}
+function record(w, correct) {
+  const s = ws(w);
+  s.seen++; s.last = Date.now();
+  if (correct) { s.ok++; s.box = Math.min(MAX_BOX, s.box + 1); }
+  else { s.ko++; s.box = 0; }
+  state.words[w.es] = s;
+  touchStreak();
+  save();
+}
+
+/* =========================================================
+   CHOIX DES MOTS : les mots ratés reviennent plus souvent
+   ========================================================= */
+function pool() {
+  const p = WORDS.filter(w => state.selected.includes(w.theme));
+  return p.length ? p : WORDS;
+}
+function weight(w) {
+  const s = state.words[w.es];
+  if (!s || !s.seen) return 6;                      // mot nouveau
+  let wt = Math.pow(2, MAX_BOX - s.box);            // boîte 0 → 32, boîte 5 → 1
+  if (s.ko > s.ok) wt *= 1.5;                       // mot souvent raté
+  const minutes = (Date.now() - s.last) / 60000;
+  if (minutes < 1) wt *= 0.15;                      // vu à l'instant
+  return wt;
+}
+function pickWords(n) {
+  const p = pool().slice();
+  const out = [];
+  n = Math.min(n, p.length);
+  while (out.length < n) {
+    const total = p.reduce((a, w) => a + weight(w), 0);
+    let r = Math.random() * total;
+    let i = 0;
+    for (; i < p.length - 1; i++) { r -= weight(p[i]); if (r <= 0) break; }
+    out.push(p.splice(i, 1)[0]);
+  }
+  return out;
+}
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* =========================================================
+   VOIX (synthèse vocale espagnole)
+   ========================================================= */
+let esVoice = null;
+function loadVoice() {
+  if (!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices();
+  esVoice = vs.find(v => v.lang === "es-ES") || vs.find(v => v.lang && v.lang.startsWith("es")) || null;
+}
+if ("speechSynthesis" in window) { loadVoice(); speechSynthesis.onvoiceschanged = loadVoice; }
+function speak(text) {
+  if (!("speechSynthesis" in window)) { toast("Synthèse vocale indisponible"); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/[¿?¡!]/g, ""));
+  u.lang = "es-ES"; u.rate = 0.85;
+  if (esVoice) u.voice = esVoice;
+  speechSynthesis.speak(u);
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+const $ = id => document.getElementById(id);
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
+  window.scrollTo(0, 0);
+  if (id === "home") renderHome();
+  if (id === "progress") renderProgress();
+}
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+let toastTimer;
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+/* =========================================================
+   ACCUEIL
+   ========================================================= */
+function counts(words) {
+  const c = { master: 0, learn: 0, new: 0 };
+  words.forEach(w => c[status(w)]++);
+  return c;
+}
+function renderHome() {
+  const c = counts(WORDS);
+  $("h-master").textContent = c.master;
+  $("h-review").textContent = WORDS.filter(w => { const s = state.words[w.es]; return s && s.seen && s.box < 2; }).length;
+  const streakOk = state.lastDay === today() || (() => { const y = new Date(); y.setDate(y.getDate() - 1); return state.lastDay === y.getFullYear() + "-" + (y.getMonth() + 1) + "-" + y.getDate(); })();
+  $("h-streak").textContent = (streakOk ? state.streak : 0) + "🔥";
+  $("h-bar").style.width = (c.master / WORDS.length * 100) + "%";
+
+  const box = $("themes"); box.innerHTML = "";
+  THEMES.forEach(t => {
+    const ws_ = WORDS.filter(w => w.theme === t.id);
+    const tc = counts(ws_);
+    const on = state.selected.includes(t.id);
+    const b = document.createElement("button");
+    b.className = "theme " + (on ? "on" : "off");
+    b.innerHTML = `<div class="t-head"><span class="t-emoji">${t.emoji}</span>${t.name}</div>
+      <div class="t-sub">${tc.master}/${ws_.length} maîtrisés</div>
+      <div class="mini-bar"><div class="m" style="width:${tc.master / ws_.length * 100}%"></div><div class="l" style="width:${tc.learn / ws_.length * 100}%"></div></div>`;
+    b.onclick = () => {
+      if (on) state.selected = state.selected.filter(x => x !== t.id);
+      else state.selected.push(t.id);
+      save(); renderHome();
+    };
+    box.appendChild(b);
+  });
+  const nSel = pool().length;
+  $("sel-count").textContent = state.selected.length ? `· ${nSel} mots` : "· aucun (tous utilisés)";
+  $("toggle-all").textContent = state.selected.length === THEMES.length ? "Tout désélectionner" : "Tout sélectionner";
+}
+$("toggle-all").onclick = () => {
+  state.selected = state.selected.length === THEMES.length ? [] : THEMES.map(t => t.id);
+  save(); renderHome();
+};
+document.querySelectorAll("[data-start]").forEach(b => b.addEventListener("click", () => {
+  const m = b.dataset.start;
+  if (m === "cards") startCards();
+  else startQuiz(m.split("-")[1]);
+}));
+
+/* =========================================================
+   CARTES MÉMOIRE
+   ========================================================= */
+const CARD_SESSION = 20;
+let cards = { list: [], i: 0, ok: 0, missed: [] };
+let lastMode = null;
+
+function startCards() {
+  lastMode = "cards";
+  cards = { list: pickWords(CARD_SESSION), i: 0, ok: 0, missed: [] };
+  document.querySelectorAll("#c-dir button").forEach(b => b.classList.toggle("sel", b.dataset.dir === state.cardDir));
+  show("cards");
+  renderCard();
+}
+function renderCard() {
+  const w = cards.list[cards.i];
+  const fc = $("flashcard");
+  fc.style.transition = "none"; fc.classList.remove("flipped");
+  void fc.offsetWidth; fc.style.transition = "";
+  const esFirst = state.cardDir === "es";
+  $("c-front").textContent = esFirst ? w.es : w.fr;
+  $("c-back").textContent = esFirst ? w.fr : w.es;
+  $("c-front-flag").textContent = esFirst ? "🇪🇸 Español" : "🇫🇷 Français";
+  $("c-back-flag").textContent = esFirst ? "🇫🇷 Français" : "🇪🇸 Español";
+  $("c-tag").textContent = w.emoji;
+  $("c-count").textContent = (cards.i + 1) + "/" + cards.list.length;
+  $("c-prog").style.width = (cards.i / cards.list.length * 100) + "%";
+  $("c-ok").disabled = $("c-ko").disabled = true;
+}
+$("flashcard").addEventListener("click", () => {
+  const fc = $("flashcard");
+  fc.classList.toggle("flipped");
+  if (fc.classList.contains("flipped")) {
+    $("c-ok").disabled = $("c-ko").disabled = false;
+    if (state.cardDir === "fr") speak(cards.list[cards.i].es);
+  }
+});
+$("c-say").onclick = () => speak(cards.list[cards.i].es);
+document.querySelectorAll("#c-dir button").forEach(b => b.onclick = () => {
+  state.cardDir = b.dataset.dir; save();
+  document.querySelectorAll("#c-dir button").forEach(x => x.classList.toggle("sel", x === b));
+  renderCard();
+});
+function answerCard(correct) {
+  const w = cards.list[cards.i];
+  record(w, correct);
+  if (correct) cards.ok++; else cards.missed.push(w);
+  cards.i++;
+  if (cards.i >= cards.list.length) showResult(cards.ok, cards.list.length, cards.missed);
+  else renderCard();
+}
+$("c-ok").onclick = () => answerCard(true);
+$("c-ko").onclick = () => answerCard(false);
+
+/* =========================================================
+   QUIZ À CHOIX MULTIPLES
+   ========================================================= */
+const QUIZ_SESSION = 10;
+let quiz = { list: [], i: 0, ok: 0, missed: [], mode: "es", dir: "es" };
+
+function startQuiz(mode) {
+  lastMode = "quiz-" + mode;
+  quiz = { list: pickWords(QUIZ_SESSION), i: 0, ok: 0, missed: [], mode, dir: "es" };
+  $("q-title").textContent = mode === "es" ? "Espagnol → Français" : mode === "fr" ? "Français → Espagnol" : "Quiz mélangé";
+  show("quiz");
+  renderQuestion();
+}
+function distractors(w, field, n) {
+  const answer = w[field];
+  const same = shuffle(WORDS.filter(x => x.theme === w.theme && x[field] !== answer));
+  const other = shuffle(WORDS.filter(x => x.theme !== w.theme && x[field] !== answer));
+  const res = [];
+  for (const x of same.concat(other)) {
+    if (res.length >= n) break;
+    if (!res.includes(x[field])) res.push(x[field]);
+  }
+  return res;
+}
+function renderQuestion() {
+  const w = quiz.list[quiz.i];
+  quiz.dir = quiz.mode === "mix" ? (Math.random() < .5 ? "es" : "fr") : quiz.mode;
+  const askEs = quiz.dir === "es";
+  const field = askEs ? "fr" : "es";
+  $("q-label").textContent = askEs ? "🇪🇸 Que veut dire…" : "🇫🇷 Comment dit-on en espagnol…";
+  $("q-word").textContent = askEs ? w.es : w.fr;
+  $("q-say").style.display = askEs ? "" : "none";
+  $("q-count").textContent = (quiz.i + 1) + "/" + quiz.list.length;
+  $("q-prog").style.width = (quiz.i / quiz.list.length * 100) + "%";
+  $("feedback").innerHTML = "";
+
+  const opts = shuffle([w[field], ...distractors(w, field, 3)]);
+  const box = $("options"); box.innerHTML = "";
+  opts.forEach(o => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.textContent = o;
+    b.onclick = () => answerQuiz(b, o === w[field]);
+    box.appendChild(b);
+  });
+  if (askEs) setTimeout(() => speak(w.es), 250);
+}
+$("q-say").onclick = () => speak(quiz.list[quiz.i].es);
+function answerQuiz(btn, correct) {
+  const w = quiz.list[quiz.i];
+  const field = quiz.dir === "es" ? "fr" : "es";
+  const all = [...document.querySelectorAll(".opt")];
+  all.forEach(b => {
+    b.disabled = true;
+    if (b.textContent === w[field]) b.classList.add("correct");
+    else if (b !== btn) b.classList.add("dim");
+  });
+  record(w, correct);
+  if (correct) {
+    quiz.ok++;
+    if (quiz.dir === "fr") speak(w.es);
+    $("feedback").innerHTML = `<div style="width:100%;text-align:center;font-size:24px;font-weight:800;color:var(--good)">✅ ¡Muy bien!</div>`;
+    setTimeout(nextQuestion, 1000);
+  } else {
+    btn.classList.add("wrong");
+    quiz.missed.push(w);
+    speak(w.es);
+    $("feedback").innerHTML = `<button class="big-btn primary" id="q-next">Continuer →</button>`;
+    $("q-next").onclick = nextQuestion;
+  }
+}
+function nextQuestion() {
+  quiz.i++;
+  if (quiz.i >= quiz.list.length) showResult(quiz.ok, quiz.list.length, quiz.missed);
+  else renderQuestion();
+}
+
+/* =========================================================
+   RÉSULTAT
+   ========================================================= */
+function showResult(ok, total, missed) {
+  const r = ok / total;
+  $("r-emoji").textContent = r === 1 ? "🏆" : r >= .8 ? "🎉" : r >= .5 ? "💪" : "📚";
+  $("r-score").textContent = ok + "/" + total;
+  $("r-msg").textContent = r === 1 ? "¡Perfecto! Aucune erreur !" : r >= .8 ? "¡Muy bien! Excellent travail." : r >= .5 ? "¡Bien! Continue comme ça." : "¡Ánimo! Ces mots reviendront plus souvent.";
+  const uniq = [...new Map(missed.map(w => [w.es, w])).values()];
+  $("r-list").innerHTML = uniq.length ? `<div class="section-title"><span>Mots à revoir</span></div><div class="list">` +
+    uniq.map(w => `<div class="row"><span>${w.emoji}</span><span class="es">${w.es}</span><span class="fr">${w.fr}</span></div>`).join("") + `</div>` : "";
+  show("result");
+}
+$("r-again").onclick = () => {
+  if (lastMode === "cards") startCards(); else startQuiz(lastMode.split("-")[1]);
+};
+
+/* =========================================================
+   PROGRESSION
+   ========================================================= */
+function renderProgress() {
+  const c = counts(WORDS);
+  $("p-master").textContent = c.master; $("p-learn").textContent = c.learn; $("p-new").textContent = c.new;
+  $("p-themes").innerHTML = THEMES.map(t => {
+    const ws_ = WORDS.filter(w => w.theme === t.id), tc = counts(ws_);
+    return `<div class="theme-row"><div class="tr-head"><span>${t.emoji} ${t.name}</span><span>${tc.master}/${ws_.length}</span></div>
+      <div class="mini-bar"><div class="m" style="width:${tc.master / ws_.length * 100}%"></div><div class="l" style="width:${tc.learn / ws_.length * 100}%"></div></div></div>`;
+  }).join("");
+  const hard = WORDS.filter(w => ws(w).ko > 0).sort((a, b) => (ws(b).ko - ws(b).ok) - (ws(a).ko - ws(a).ok) || ws(b).ko - ws(a).ko).slice(0, 10);
+  $("p-hard").innerHTML = hard.length ? `<div class="list" style="margin-top:0">` + hard.map(w => {
+    const st = status(w), s = ws(w);
+    const chip = st === "master" ? `<span class="word-chip chip-master">maîtrisé</span>` : `<span class="word-chip chip-learn">${s.ko} ✗ · ${s.ok} ✓</span>`;
+    return `<div class="row"><span class="es">${w.es}</span><span class="fr">${w.fr}</span>${chip}</div>`;
+  }).join("") + `</div>` : `<div class="list" style="margin-top:0"><div class="row" style="color:var(--muted);justify-content:center">Aucune erreur pour l'instant 🎯</div></div>`;
+}
+$("reset").onclick = () => {
+  if (confirm("Effacer toute ta progression ? Cette action est irréversible.")) {
+    state.words = {}; state.streak = 0; state.lastDay = null; save();
+    renderProgress(); toast("Progression remise à zéro");
+  }
+};
+
+renderHome();
+</script>
+</body>
+</html>
