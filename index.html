@@ -6,9 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="¡Vocabulario!">
+<meta name="apple-mobile-web-app-title" content="Español B2">
 <meta name="theme-color" content="#f6f1ea">
-<title>¡Vocabulario! – Espagnol</title>
+<title>Español B2 – Grammaire & expressions</title>
 <style>
   :root {
     --bg: #f6f1ea;
@@ -17,13 +17,12 @@
     --muted: #7a6f80;
     --line: #e8dfd4;
     --primary: #e2553f;
-    --primary-dark: #c2402c;
     --accent: #f2b33d;
     --good: #2f9e6e;
     --good-bg: #e2f5ec;
     --bad: #d6455b;
     --bad-bg: #fde6ea;
-    --blue: #3b6fd8;
+    --note-bg: #fff6e0;
     --shadow: 0 6px 20px rgba(60, 40, 30, .10);
     --radius: 22px;
   }
@@ -36,6 +35,7 @@
       --line: #3b3342;
       --good-bg: #183a2c;
       --bad-bg: #42202a;
+      --note-bg: #3a3122;
       --shadow: 0 6px 20px rgba(0, 0, 0, .35);
     }
   }
@@ -64,8 +64,8 @@
   /* --- En-tête --- */
   .topbar { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; min-height: 64px; }
   .topbar h1 { font-size: 30px; margin: 0; flex: 1; letter-spacing: -.5px; }
-  .topbar h1 span { color: var(--primary); }
-  .topbar h2 { font-size: 24px; margin: 0; flex: 1; text-align: center; }
+  .topbar h1 small { font-size: 16px; color: #fff; background: var(--primary); padding: 4px 10px; border-radius: 99px; vertical-align: 5px; margin-left: 6px; }
+  .topbar h2 { font-size: 22px; margin: 0; flex: 1; text-align: center; }
   .icon-btn {
     width: 64px; height: 64px; border-radius: 20px; background: var(--card);
     box-shadow: var(--shadow); font-size: 28px; display: grid; place-items: center; flex-shrink: 0;
@@ -86,35 +86,36 @@
   .hero-bar div { height: 100%; background: #fff; border-radius: 99px; transition: width .5s; }
 
   .section-title { font-size: 20px; font-weight: 700; margin: 26px 4px 12px; display: flex; justify-content: space-between; align-items: center; }
+  .sub-title { font-size: 15px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 16px 4px 10px; }
   .link-btn { background: none; color: var(--primary); font-weight: 700; font-size: 18px; padding: 10px 6px; }
 
-  .themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
   .theme {
-    background: var(--card); border-radius: 18px; padding: 14px 14px 12px; min-height: 92px;
+    background: var(--card); border-radius: 18px; padding: 14px 14px 12px; min-height: 96px;
     box-shadow: var(--shadow); text-align: left; border: 3px solid transparent;
     display: flex; flex-direction: column; gap: 6px; transition: transform .1s, border-color .15s, opacity .15s;
   }
   .theme:active { transform: scale(.96); }
   .theme.off { opacity: .45; }
   .theme.on { border-color: var(--primary); }
-  .theme .t-head { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+  .theme .t-head { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; flex: 1; }
   .theme .t-emoji { font-size: 26px; }
   .theme .t-sub { font-size: 14px; color: var(--muted); }
   .mini-bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; display: flex; }
   .mini-bar .m { background: var(--good); }
   .mini-bar .l { background: var(--accent); }
 
-  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
   .mode {
-    background: var(--card); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+    background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
     text-align: left; display: flex; align-items: center; gap: 18px; min-height: 104px;
   }
   .mode:active { transform: scale(.97); }
-  .mode .m-emoji { font-size: 44px; width: 70px; height: 70px; border-radius: 20px; display: grid; place-items: center; flex-shrink: 0; }
-  .mode .m-title { font-size: 21px; font-weight: 800; }
+  .mode .m-emoji { font-size: 40px; width: 70px; height: 70px; border-radius: 20px; display: grid; place-items: center; flex-shrink: 0; }
+  .mode .m-title { font-size: 20px; font-weight: 800; }
   .mode .m-sub { font-size: 15px; color: var(--muted); margin-top: 3px; }
-  .bg1 { background: #ffe3dc; } .bg2 { background: #fff0cf; } .bg3 { background: #dfe8ff; } .bg4 { background: #def5ea; }
-  @media (prefers-color-scheme: dark) { .bg1,.bg2,.bg3,.bg4 { background: #3a3140; } }
+  .bg1 { background: #ffe3dc; } .bg2 { background: #fff0cf; } .bg3 { background: #dfe8ff; } .bg4 { background: #def5ea; } .bg5 { background: #efe3ff; }
+  @media (prefers-color-scheme: dark) { .bg1,.bg2,.bg3,.bg4,.bg5 { background: #3a3140; } }
 
   /* --- Cartes mémoire --- */
   .progress-line { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
@@ -123,30 +124,38 @@
   .seg button { flex: 1; min-height: 56px; border-radius: 14px; background: transparent; font-weight: 700; font-size: 17px; color: var(--muted); }
   .seg button.sel { background: var(--primary); color: #fff; }
 
-  .card-wrap { flex: 1; display: flex; align-items: center; justify-content: center; perspective: 1400px; min-height: 340px; }
+  .card-wrap { flex: 1; display: flex; align-items: center; justify-content: center; perspective: 1400px; min-height: 380px; }
   .flashcard {
-    width: 100%; max-width: 640px; height: min(52vh, 440px); min-height: 300px; position: relative;
+    width: 100%; max-width: 680px; height: min(56vh, 480px); min-height: 360px; position: relative;
     transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3,.7,.3,1.2); background: none; padding: 0;
   }
   .flashcard.flipped { transform: rotateY(180deg); }
   .face {
     position: absolute; inset: 0; border-radius: 30px; box-shadow: var(--shadow);
     backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    padding: 64px 30px 54px; text-align: center; overflow: hidden;
   }
   .face.front { background: var(--card); }
   .face.back { background: linear-gradient(135deg, #3b6fd8, #6a5ad8); color: #fff; transform: rotateY(180deg); }
-  .face .flag { font-size: 18px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: .6; position: absolute; top: 24px; }
-  .face .word { font-size: clamp(38px, 7vw, 64px); font-weight: 800; line-height: 1.15; word-break: break-word; }
-  .face .hint { position: absolute; bottom: 22px; font-size: 16px; opacity: .55; }
-  .face .theme-tag { position: absolute; top: 22px; right: 24px; font-size: 26px; }
+  .face .flag { font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: .6; position: absolute; top: 24px; }
+  .face .word { font-size: clamp(34px, 6.5vw, 58px); font-weight: 800; line-height: 1.15; word-break: break-word; }
+  .face .word.long { font-size: clamp(24px, 4.2vw, 36px); line-height: 1.3; }
+  .face .ex { font-size: clamp(18px, 2.6vw, 22px); opacity: .9; font-style: italic; line-height: 1.35; }
+  .face .why { font-size: clamp(16px, 2.3vw, 19px); background: rgba(255,255,255,.16); border-radius: 16px; padding: 12px 16px; line-height: 1.35; }
+  .face .hint { position: absolute; bottom: 20px; font-size: 16px; opacity: .55; }
+  .face .theme-tag { position: absolute; top: 20px; right: 24px; font-size: 26px; }
+  .blank { display: inline-block; min-width: 2.6em; border-bottom: 3px solid var(--primary); color: var(--primary); }
+  .inf { color: var(--muted); font-weight: 600; font-size: .8em; }
+  .ans { color: var(--good); }
+  .face.back .ans { color: #ffe27a; }
   .say {
     position: absolute; top: 14px; left: 14px; width: 60px; height: 60px; border-radius: 18px;
     background: rgba(127,127,127,.12); font-size: 26px; display: grid; place-items: center;
   }
   .say:active { transform: scale(.92); }
 
-  .answer-row { display: flex; gap: 14px; margin-top: 22px; }
+  .answer-row { display: flex; gap: 14px; margin-top: 18px; }
   .big-btn {
     flex: 1; min-height: 80px; border-radius: 22px; font-size: 21px; font-weight: 800; box-shadow: var(--shadow);
     display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform .1s, opacity .2s;
@@ -159,14 +168,15 @@
   .big-btn[disabled] { opacity: .35; pointer-events: none; }
 
   /* --- Quiz --- */
-  .q-box { background: var(--card); border-radius: 30px; box-shadow: var(--shadow); padding: 34px 24px; text-align: center; position: relative; margin-bottom: 22px; }
+  .q-box { background: var(--card); border-radius: 30px; box-shadow: var(--shadow); padding: 34px 28px; text-align: center; position: relative; margin-bottom: 22px; }
   .q-box .q-label { color: var(--muted); font-size: 17px; font-weight: 600; }
-  .q-box .q-word { font-size: clamp(36px, 6.5vw, 58px); font-weight: 800; margin-top: 10px; word-break: break-word; }
+  .q-box .q-word { font-size: clamp(34px, 6vw, 54px); font-weight: 800; margin-top: 10px; word-break: break-word; line-height: 1.2; }
+  .q-box .q-word.long { font-size: clamp(24px, 4vw, 34px); line-height: 1.35; }
   .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 520px) { .options { grid-template-columns: 1fr; } }
   .opt {
-    background: var(--card); border-radius: 22px; min-height: 96px; padding: 14px 18px; font-size: 23px; font-weight: 700;
-    box-shadow: var(--shadow); border: 3px solid transparent; transition: transform .1s, background .2s;
+    background: var(--card); border-radius: 22px; min-height: 96px; padding: 14px 18px; font-size: 22px; font-weight: 700;
+    box-shadow: var(--shadow); border: 3px solid transparent; transition: transform .1s, background .2s; line-height: 1.25;
   }
   .opt:active { transform: scale(.97); }
   .opt.correct { background: var(--good-bg); border-color: var(--good); color: var(--good); }
@@ -174,8 +184,11 @@
   .opt.dim { opacity: .45; }
   .opt[disabled] { pointer-events: none; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-  .feedback { min-height: 96px; margin-top: 18px; display: flex; align-items: center; }
-  .feedback .big-btn { width: 100%; }
+  .feedback { margin-top: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .note { background: var(--note-bg); border-radius: 20px; padding: 16px 20px; font-size: 19px; line-height: 1.4; box-shadow: var(--shadow); }
+  .note .verdict { font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+  .note .full { font-weight: 700; margin-bottom: 6px; }
+  .note i { opacity: .85; }
   .score-pill { background: var(--card); box-shadow: var(--shadow); border-radius: 99px; padding: 10px 18px; font-weight: 800; font-size: 18px; min-width: 64px; text-align: center; }
 
   /* --- Résultats / Progression --- */
@@ -188,6 +201,8 @@
   .list .row:last-child { border-bottom: none; }
   .list .row .es { font-weight: 800; flex: 1; }
   .list .row .fr { color: var(--muted); flex: 1; text-align: right; }
+  .list .row.stack { flex-direction: column; align-items: stretch; gap: 4px; }
+  .list .row.stack .fr { text-align: left; font-size: 16px; }
   .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .stat-card { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); text-align: center; }
   .stat-card .n { font-size: 38px; font-weight: 900; }
@@ -201,14 +216,13 @@
   .theme-row .mini-bar { height: 12px; }
   .danger { background: none; color: var(--bad); font-weight: 700; font-size: 18px; padding: 18px; margin: 20px auto 0; display: block; min-height: 60px; }
   .word-chip { font-size: 13px; padding: 4px 10px; border-radius: 99px; font-weight: 700; flex-shrink: 0; }
-  .chip-new { background: var(--line); color: var(--muted); }
   .chip-learn { background: #fff0cf; color: #a06d00; }
   .chip-master { background: var(--good-bg); color: var(--good); }
 
   .toast {
-    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 30px); transform: translateX(-50%) translateY(120px);
+    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 30px); transform: translateX(-50%) translateY(140px);
     background: var(--ink); color: var(--bg); padding: 16px 26px; border-radius: 99px; font-weight: 700; font-size: 17px;
-    transition: transform .3s; z-index: 10; box-shadow: var(--shadow); white-space: nowrap;
+    transition: transform .3s; z-index: 10; box-shadow: var(--shadow); max-width: 90vw; text-align: center;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
@@ -219,18 +233,18 @@
   <!-- ===================== ACCUEIL ===================== -->
   <section class="screen active" id="home">
     <div class="topbar">
-      <h1>¡Vocabulario! <span>🇪🇸</span></h1>
+      <h1>¡Español! <small>B2</small></h1>
       <button class="icon-btn" data-go="progress" aria-label="Progression">📊</button>
     </div>
 
     <div class="hero">
       <div class="stat">
         <div class="big" id="h-master">0</div>
-        <div class="lbl">mots maîtrisés sur 150</div>
+        <div class="lbl" id="h-master-lbl">éléments maîtrisés</div>
       </div>
       <div class="stat">
         <div class="big" id="h-review">0</div>
-        <div class="lbl">mots à revoir</div>
+        <div class="lbl">à revoir</div>
       </div>
       <div class="stat">
         <div class="big" id="h-streak">0🔥</div>
@@ -239,31 +253,38 @@
       <div class="hero-bar"><div id="h-bar" style="width:0"></div></div>
     </div>
 
-    <div class="section-title">
-      <span>Thèmes <small id="sel-count" style="color:var(--muted);font-weight:600"></small></span>
-      <button class="link-btn" id="toggle-all">Tout sélectionner</button>
-    </div>
-    <div class="themes" id="themes"></div>
-
     <div class="section-title"><span>S'entraîner</span></div>
     <div class="modes">
+      <button class="mode" data-start="gram">
+        <div class="m-emoji bg5">✏️</div>
+        <div><div class="m-title">Grammaire & temps</div><div class="m-sub">Phrases à trous + explication de la règle</div></div>
+      </button>
       <button class="mode" data-start="cards">
         <div class="m-emoji bg1">🃏</div>
         <div><div class="m-title">Cartes mémoire</div><div class="m-sub">Touche la carte pour la retourner</div></div>
       </button>
-      <button class="mode" data-start="quiz-es">
+      <button class="mode" data-start="es">
         <div class="m-emoji bg2">🇪🇸</div>
-        <div><div class="m-title">Quiz espagnol → français</div><div class="m-sub">Trouve la bonne traduction</div></div>
+        <div><div class="m-title">Comprendre</div><div class="m-sub">Espagnol → français (connecteurs, expressions…)</div></div>
       </button>
-      <button class="mode" data-start="quiz-fr">
+      <button class="mode" data-start="fr">
         <div class="m-emoji bg3">🇫🇷</div>
-        <div><div class="m-title">Quiz français → espagnol</div><div class="m-sub">Trouve le mot espagnol</div></div>
+        <div><div class="m-title">Produire</div><div class="m-sub">Français → espagnol</div></div>
       </button>
-      <button class="mode" data-start="quiz-mix">
+      <button class="mode" data-start="mix">
         <div class="m-emoji bg4">🔀</div>
-        <div><div class="m-title">Quiz mélangé</div><div class="m-sub">Les deux sens au hasard</div></div>
+        <div><div class="m-title">Quiz mélangé</div><div class="m-sub">Grammaire et vocabulaire, dans tous les sens</div></div>
       </button>
     </div>
+
+    <div class="section-title">
+      <span>Thèmes <small id="sel-count" style="color:var(--muted);font-weight:600"></small></span>
+      <button class="link-btn" id="toggle-all">Tout sélectionner</button>
+    </div>
+    <div class="sub-title">Grammaire & temps</div>
+    <div class="themes" id="themes-g"></div>
+    <div class="sub-title">Connecteurs, expressions & verbes</div>
+    <div class="themes" id="themes-v"></div>
   </section>
 
   <!-- ===================== CARTES ===================== -->
@@ -280,17 +301,8 @@
     </div>
     <div class="card-wrap">
       <div class="flashcard" id="flashcard" role="button" aria-label="Retourner la carte">
-        <div class="face front">
-          <div class="flag" id="c-front-flag">Español</div>
-          <div class="theme-tag" id="c-tag"></div>
-          <div class="word" id="c-front"></div>
-          <div class="hint">👆 Touche pour retourner</div>
-        </div>
-        <div class="face back">
-          <div class="flag" id="c-back-flag">Français</div>
-          <div class="word" id="c-back"></div>
-          <div class="hint">Tu le savais ?</div>
-        </div>
+        <div class="face front" id="c-front"></div>
+        <div class="face back" id="c-back"></div>
       </div>
     </div>
     <div class="answer-row">
@@ -312,7 +324,7 @@
     <div class="progress-line"><div id="q-prog"></div></div>
     <div class="q-box">
       <button class="say" id="q-say" aria-label="Écouter">🔊</button>
-      <div class="q-label" id="q-label">Que veut dire…</div>
+      <div class="q-label" id="q-label"></div>
       <div class="q-word" id="q-word"></div>
     </div>
     <div class="options" id="options"></div>
@@ -356,7 +368,7 @@
       <span><i class="dot" style="background:var(--line)"></i>Jamais vu</span>
     </div>
     <div class="list" id="p-themes"></div>
-    <div class="section-title"><span>Mots les plus difficiles</span></div>
+    <div class="section-title"><span>Points les plus difficiles</span></div>
     <div id="p-hard"></div>
     <button class="danger" id="reset">🗑 Remettre la progression à zéro</button>
   </section>
@@ -366,132 +378,300 @@
 
 <script>
 /* =========================================================
-   VOCABULAIRE : 150 mots, classés par thèmes
+   CONTENU NIVEAU B2
+   - kind "g" (grammaire) : [phrase avec ___, indication, bonne réponse, [3 pièges], règle]
+   - kind "v" (vocabulaire) : [espagnol, français, exemple, groupe de synonymes optionnel]
+     (les éléments d'un même groupe ne servent jamais de piège l'un pour l'autre)
    ========================================================= */
 const THEMES = [
-  { id: "salut", name: "Salutations", emoji: "👋", words: [
-    ["hola", "bonjour / salut"], ["adiós", "au revoir"], ["buenos días", "bonjour (le matin)"],
-    ["buenas tardes", "bon après-midi"], ["buenas noches", "bonsoir / bonne nuit"], ["por favor", "s'il te plaît"],
-    ["gracias", "merci"], ["de nada", "de rien"], ["perdón", "pardon"], ["lo siento", "je suis désolé"],
-    ["¿qué tal?", "comment ça va ?"], ["hasta luego", "à plus tard"], ["hasta mañana", "à demain"],
-    ["sí", "oui"], ["no", "non"] ]},
-  { id: "food", name: "Nourriture", emoji: "🍎", words: [
-    ["el pan", "le pain"], ["el agua", "l'eau"], ["la leche", "le lait"], ["el queso", "le fromage"],
-    ["la manzana", "la pomme"], ["la naranja", "l'orange"], ["el plátano", "la banane"], ["la carne", "la viande"],
-    ["el pollo", "le poulet"], ["el pescado", "le poisson (à manger)"], ["el huevo", "l'œuf"], ["el arroz", "le riz"],
-    ["la sopa", "la soupe"], ["el tomate", "la tomate"], ["la patata", "la pomme de terre"], ["el azúcar", "le sucre"],
-    ["la sal", "le sel"], ["el café", "le café"], ["el zumo", "le jus"], ["la fresa", "la fraise"] ]},
-  { id: "body", name: "Corps humain", emoji: "🖐️", words: [
-    ["la cabeza", "la tête"], ["el pelo", "les cheveux"], ["el ojo", "l'œil"], ["la nariz", "le nez"],
-    ["la boca", "la bouche"], ["la oreja", "l'oreille"], ["el diente", "la dent"], ["el cuello", "le cou"],
-    ["el brazo", "le bras"], ["la mano", "la main"], ["el dedo", "le doigt"], ["la pierna", "la jambe"],
-    ["el pie", "le pied"], ["el corazón", "le cœur"], ["la espalda", "le dos"] ]},
-  { id: "family", name: "Famille", emoji: "👨‍👩‍👧", words: [
-    ["la madre", "la mère"], ["el padre", "le père"], ["el hermano", "le frère"], ["la hermana", "la sœur"],
-    ["el hijo", "le fils"], ["la hija", "la fille"], ["el abuelo", "le grand-père"], ["la abuela", "la grand-mère"],
-    ["el tío", "l'oncle"], ["la tía", "la tante"], ["el primo", "le cousin"], ["la familia", "la famille"] ]},
-  { id: "verbs", name: "Verbes courants", emoji: "🏃", words: [
-    ["ser", "être (identité)"], ["estar", "être (état, lieu)"], ["tener", "avoir"], ["hacer", "faire"],
-    ["ir", "aller"], ["venir", "venir"], ["comer", "manger"], ["beber", "boire"], ["hablar", "parler"],
-    ["vivir", "vivre / habiter"], ["querer", "vouloir / aimer"], ["poder", "pouvoir"], ["saber", "savoir"],
-    ["ver", "voir"], ["dar", "donner"], ["decir", "dire"], ["dormir", "dormir"], ["trabajar", "travailler"],
-    ["jugar", "jouer"], ["leer", "lire"], ["escribir", "écrire"], ["abrir", "ouvrir"], ["comprar", "acheter"],
-    ["llegar", "arriver"], ["salir", "sortir"] ]},
-  { id: "colors", name: "Couleurs", emoji: "🎨", words: [
-    ["rojo", "rouge"], ["azul", "bleu"], ["verde", "vert"], ["amarillo", "jaune"], ["negro", "noir"],
-    ["blanco", "blanc"], ["gris", "gris"], ["rosa", "rose"], ["morado", "violet"], ["marrón", "marron"] ]},
-  { id: "numbers", name: "Nombres", emoji: "🔢", words: [
-    ["uno", "un"], ["dos", "deux"], ["tres", "trois"], ["cuatro", "quatre"], ["cinco", "cinq"], ["seis", "six"],
-    ["siete", "sept"], ["ocho", "huit"], ["nueve", "neuf"], ["diez", "dix"], ["veinte", "vingt"], ["cien", "cent"] ]},
-  { id: "animals", name: "Animaux", emoji: "🐶", words: [
-    ["el perro", "le chien"], ["el gato", "le chat"], ["el caballo", "le cheval"], ["la vaca", "la vache"],
-    ["el pájaro", "l'oiseau"], ["el pez", "le poisson (vivant)"], ["el ratón", "la souris"], ["el cerdo", "le cochon"],
-    ["la oveja", "le mouton"], ["el conejo", "le lapin"], ["el león", "le lion"], ["la mariposa", "le papillon"] ]},
-  { id: "home", name: "Maison & objets", emoji: "🏠", words: [
-    ["la casa", "la maison"], ["la puerta", "la porte"], ["la ventana", "la fenêtre"], ["la mesa", "la table"],
-    ["la silla", "la chaise"], ["la cama", "le lit"], ["la cocina", "la cuisine"], ["el baño", "la salle de bain"],
-    ["la habitación", "la chambre"], ["la llave", "la clé"], ["el libro", "le livre"], ["el coche", "la voiture"] ]},
-  { id: "time", name: "Temps & jours", emoji: "📅", words: [
-    ["el día", "le jour"], ["la noche", "la nuit"], ["hoy", "aujourd'hui"], ["mañana", "demain"], ["ayer", "hier"],
-    ["la semana", "la semaine"], ["el mes", "le mois"], ["el año", "l'année"], ["el lunes", "lundi"], ["el domingo", "dimanche"] ]},
-  { id: "adj", name: "Adjectifs", emoji: "✨", words: [
-    ["grande", "grand"], ["pequeño", "petit"], ["bueno", "bon"], ["malo", "mauvais"], ["bonito", "joli"],
-    ["feliz", "heureux"], ["cansado", "fatigué"] ]},
+  /* ---------------- GRAMMAIRE ---------------- */
+  { id: "subj", kind: "g", name: "Subjonctif présent", emoji: "🌀", items: [
+    ["Espero que ___ a la fiesta.", "venir, tú", "vengas", ["vienes", "vendrás", "vinieras"], "Souhait : <b>esperar que</b> + subjonctif."],
+    ["Quiero que me ___ la verdad.", "decir, tú", "digas", ["dices", "dirás", "dijeras"], "Volonté avec deux sujets différents : <b>querer que</b> + subjonctif."],
+    ["Es importante que ___ cada día.", "estudiar, vosotros", "estudiéis", ["estudiáis", "estudiaréis", "estudiarais"], "Jugement de valeur (<b>es importante/necesario/normal que</b>) + subjonctif."],
+    ["No creo que ___ una buena idea.", "ser", "sea", ["es", "será", "esté"], "Opinion <b>négative</b> (no creo / no pienso que) → subjonctif."],
+    ["Creo que ___ razón.", "tener, él", "tiene", ["tenga", "tuviera", "tengo"], "Opinion <b>affirmative</b> (creo / pienso que) → indicatif."],
+    ["Cuando ___ a casa, llámame.", "llegar, tú", "llegues", ["llegas", "llegarás", "llegaras"], "<b>Cuando</b> + action future → subjonctif (jamais de futur après cuando)."],
+    ["Cuando ___ niño, vivía en Sevilla.", "ser, yo", "era", ["sea", "fuera", "seré"], "<b>Cuando</b> + fait passé ou habitude → indicatif."],
+    ["Aunque ___ mañana, iremos a la playa.", "llover", "llueva", ["llueve", "lloverá", "llovía"], "<b>Aunque</b> + hypothèse non vérifiée (même si…) → subjonctif."],
+    ["Busco un piso que ___ terraza.", "tener", "tenga", ["tiene", "tendrá", "tuvo"], "Antécédent <b>inconnu / recherché</b> → subjonctif dans la relative."],
+    ["Tengo un piso que ___ terraza.", "tener", "tiene", ["tenga", "tuviera", "tengas"], "Antécédent <b>connu / réel</b> → indicatif dans la relative."],
+    ["Te lo explico para que lo ___.", "entender, tú", "entiendas", ["entiendes", "entenderás", "entendías"], "But : <b>para que</b> + subjonctif."],
+    ["Es posible que ella ya ___ salido.", "haber", "haya", ["ha", "había", "habrá"], "Possibilité → subjonctif ; ici subjonctif passé (<b>haya</b> + participe)."],
+    ["Ojalá ___ buen tiempo este fin de semana.", "hacer", "haga", ["hace", "hará", "hizo"], "<b>Ojalá</b> (pourvu que) + subjonctif."],
+    ["Me alegro de que ___ aquí.", "estar, tú", "estés", ["estás", "estarás", "estabas"], "Sentiment / émotion (<b>me alegro de que, me molesta que</b>) + subjonctif."],
+    ["En cuanto ___ el trabajo, te aviso.", "terminar, yo", "termine", ["termino", "terminaré", "terminé"], "<b>En cuanto</b> (dès que) + action future → subjonctif."],
+    ["No es verdad que ___ hablar ruso.", "saber, él", "sepa", ["sabe", "sabrá", "supo"], "Négation d'une certitude (<b>no es verdad / no es cierto que</b>) → subjonctif."],
+    ["Es evidente que ___ ayuda.", "necesitar, nosotros", "necesitamos", ["necesitemos", "necesitáramos", "necesitéis"], "Certitude (<b>es evidente / está claro que</b>) → indicatif."],
+    ["Te prohíbo que ___ esta noche.", "salir, tú", "salgas", ["sales", "saldrás", "salías"], "Ordre, interdiction (<b>prohibir, pedir, mandar que</b>) + subjonctif."],
+    ["Dudo que ___ terminar a tiempo.", "poder, nosotros", "podamos", ["podemos", "podremos", "pudimos"], "Doute (<b>dudar que</b>) → subjonctif."],
+    ["Antes de que ___, dame tu número.", "irse, tú", "te vayas", ["te vas", "te irás", "te fuiste"], "<b>Antes de que</b> est toujours suivi du subjonctif."],
+    ["Siempre que ___ a casa, trae flores.", "venir, él", "viene", ["venga", "vendrá", "viniera"], "<b>Siempre que</b> = chaque fois que (habitude) → indicatif. = à condition que → subjonctif."],
+  ]},
+  { id: "past", kind: "g", name: "Temps du passé", emoji: "⏳", items: [
+    ["Ayer ___ al cine con mis amigos.", "ir, yo", "fui", ["iba", "he ido", "había ido"], "Action ponctuelle terminée, marqueur <b>ayer</b> → passé simple (indefinido)."],
+    ["Cuando era pequeño, ___ en el parque todos los días.", "jugar, yo", "jugaba", ["jugué", "he jugado", "jugara"], "Habitude dans le passé → <b>imperfecto</b>."],
+    ["Esta mañana ___ muy temprano.", "desayunar, yo", "he desayunado", ["desayunaba", "había desayunado", "desayunara"], "Période pas encore terminée (<b>esta mañana, hoy, este año</b>) → passé composé (usage d'Espagne)."],
+    ["Mientras ___, sonó el teléfono.", "ducharse, yo", "me duchaba", ["me duché", "me he duchado", "me duche"], "Action en cours interrompue par une autre → <b>imperfecto</b> (décor) + indefinido (événement)."],
+    ["Cuando llegué a la estación, el tren ya ___.", "salir", "había salido", ["salió", "ha salido", "salía"], "Action antérieure à une autre action passée → <b>plus-que-parfait</b>."],
+    ["En 1492 Colón ___ a América.", "llegar", "llegó", ["llegaba", "ha llegado", "había llegado"], "Fait historique daté et achevé → <b>indefinido</b>."],
+    ["¿___ alguna vez en México?", "estar, tú", "Has estado", ["Estabas", "Estarás", "Estés"], "Expérience de vie (<b>alguna vez, nunca, ya, todavía no</b>) → passé composé."],
+    ["La casa ___ grande y tenía un jardín precioso.", "ser", "era", ["fue", "ha sido", "había sido"], "Description dans le passé → <b>imperfecto</b>."],
+    ["Ayer ___ durante tres horas.", "llover", "llovió", ["llovía", "ha llovido", "había llovido"], "Action à la durée délimitée (<b>durante tres horas</b>) → indefinido."],
+    ["Nunca ___ algo tan bonito hasta que visité Granada.", "ver, yo", "había visto", ["he visto", "vi", "veía"], "Antériorité par rapport à un moment passé (<b>hasta que visité</b>) → plus-que-parfait."],
+    ["Este año ___ mucho.", "viajar, nosotros", "hemos viajado", ["viajábamos", "habíamos viajado", "viajemos"], "Période en cours (<b>este año</b>) → passé composé."],
+    ["Anoche ___ muy mal.", "dormir, yo", "dormí", ["dormía", "he dormido", "había dormido"], "<b>Anoche</b> = moment terminé → indefinido (attention : o → u à la 3e pers. : durmió)."],
+    ["Antes la gente no ___ móvil.", "tener", "tenía", ["tuvo", "ha tenido", "tenga"], "<b>Antes</b> = « autrefois » : situation habituelle → imperfecto."],
+    ["El año pasado ___ en Barcelona durante seis meses.", "vivir, yo", "viví", ["vivía", "he vivido", "había vivido"], "Période passée, close et mesurée → indefinido."],
+  ]},
+  { id: "cond", kind: "g", name: "Hypothèse & condition", emoji: "🔮", items: [
+    ["Si ___ dinero, viajaría por el mundo.", "tener, yo", "tuviera", ["tengo", "tendría", "tenga"], "Hypothèse irréelle au présent : <b>si + subjonctif imparfait</b> + conditionnel."],
+    ["Si ___ más, habrías aprobado.", "estudiar, tú", "hubieras estudiado", ["estudiaras", "habrías estudiado", "estudiabas"], "Irréel du passé : <b>si + subjonctif plus-que-parfait</b> + conditionnel passé."],
+    ["Si mañana ___ sol, iremos a la playa.", "hacer", "hace", ["hiciera", "haga", "hará"], "Condition réalisable : <b>si + présent</b>. Jamais de futur ni de subjonctif présent après « si »."],
+    ["Si yo fuera tú, no lo ___.", "hacer", "haría", ["hago", "haga", "haré"], "Conséquence d'une hypothèse irréelle → <b>conditionnel</b>."],
+    ["Si lo hubiera sabido, te lo ___.", "decir", "habría dicho", ["diría", "había dicho", "he dicho"], "Irréel du passé → <b>conditionnel passé</b> (habría dicho, ou aussi « hubiera dicho »)."],
+    ["Me ___ ir contigo, pero no puedo.", "gustar", "gustaría", ["gustara", "gustó", "guste"], "Souhait poli → <b>conditionnel</b>."],
+    ["Habla como si lo ___ todo.", "saber", "supiera", ["sabe", "sabría", "sepa"], "<b>Como si</b> + toujours subjonctif imparfait (ou plus-que-parfait)."],
+    ["De ___ que venías, habría preparado algo.", "saber", "haber sabido", ["saber", "sabiendo", "hubiera sabido"], "<b>De + infinitif passé</b> = si + subjonctif plus-que-parfait (registre soutenu)."],
+    ["En caso de que ___ algo, llámame.", "necesitar, tú", "necesites", ["necesitas", "necesitarás", "necesitabas"], "<b>En caso de que</b> (au cas où) + subjonctif."],
+    ["Te llamaré a menos que ___ muy cansado.", "estar, yo", "esté", ["estoy", "estaré", "estaba"], "<b>A menos que</b> (à moins que) + subjonctif."],
+    ["¿Qué ___ si te tocara la lotería?", "hacer, tú", "harías", ["haces", "harás", "hicieras"], "Si + subjonctif imparfait → l'autre proposition au <b>conditionnel</b>."],
+    ["Con tal de que me ___, haré lo que quieras.", "ayudar, tú", "ayudes", ["ayudas", "ayudarás", "ayudabas"], "<b>Con tal de que</b> (pourvu que) + subjonctif."],
+  ]},
+  { id: "conc", kind: "g", name: "Concordance & style indirect", emoji: "🔁", items: [
+    ["Quería que me ___.", "llamar, tú", "llamaras", ["llames", "llamas", "llamarías"], "Verbe principal au passé → <b>subjonctif imparfait</b> dans la subordonnée."],
+    ["Me pidió que ___ la puerta.", "cerrar, yo", "cerrara", ["cierre", "cerraba", "cerraré"], "Demande au passé (<b>me pidió que</b>) → subjonctif imparfait."],
+    ["Era necesario que todos ___.", "participar", "participaran", ["participen", "participaban", "participarán"], "<b>Era necesario que</b> (passé) → subjonctif imparfait."],
+    ["«Vendré mañana». → Me dijo que ___ al día siguiente.", "venir", "vendría", ["viniera", "venga", "vino"], "Style indirect au passé : <b>futur → conditionnel</b>."],
+    ["«Estoy cansado». → Me dijo que ___ cansado.", "estar", "estaba", ["estuvo", "estuviera", "esté"], "Style indirect au passé : <b>présent → imperfecto</b>."],
+    ["«Llama a tu madre». → Me dijo que ___ a mi madre.", "llamar", "llamara", ["llamo", "llamaba", "llamaría"], "Style indirect : <b>impératif → subjonctif imparfait</b> (si le verbe introducteur est au passé)."],
+    ["«¿Quieres un café?» → Me preguntó si ___ un café.", "querer, yo", "quería", ["quiera", "quisiera", "querré"], "Question indirecte avec <b>si</b> : présent → imperfecto (jamais de subjonctif après si interrogatif)."],
+    ["«He perdido las llaves». → Me dijo que ___ las llaves.", "perder", "había perdido", ["perdiera", "perdería", "pierda"], "Style indirect au passé : <b>passé composé → plus-que-parfait</b>."],
+    ["No pensaba que ___ tan difícil.", "ser", "fuera", ["sea", "es", "será"], "Opinion négative au passé → <b>subjonctif imparfait</b>."],
+    ["Le aconsejé que ___ al médico.", "ir, él", "fuera", ["iba", "irá", "fue"], "Conseil au passé (<b>le aconsejé que</b>) → subjonctif imparfait."],
+    ["Me alegré de que ___.", "venir, vosotros", "vinierais", ["vengáis", "veníais", "vendréis"], "Sentiment au passé → <b>subjonctif imparfait</b>."],
+    ["Buscaba a alguien que ___ chino.", "hablar", "hablara", ["hable", "hablará", "habló"], "Antécédent inconnu + principale au passé → subjonctif imparfait."],
+  ]},
+  { id: "serestar", kind: "g", name: "Ser ou estar", emoji: "⚖️", items: [
+    ["La fiesta ___ en casa de Marta.", "", "es", ["está", "estaba", "hay"], "Lieu d'un <b>événement</b> (fiesta, reunión, concierto) → ser."],
+    ["Madrid ___ en el centro de España.", "", "está", ["es", "hay", "son"], "Localisation d'un lieu, d'un objet, d'une personne → <b>estar</b>."],
+    ["Este chico ___ muy listo, siempre saca buenas notas.", "", "es", ["está", "son", "sea"], "<b>Ser listo</b> = être intelligent. Estar listo = être prêt."],
+    ["¿___ listo? Nos vamos ya.", "tú", "Estás", ["Eres", "Seas", "Estés"], "<b>Estar listo</b> = être prêt."],
+    ["Mi hermano ___ médico.", "", "es", ["está", "hace", "tiene"], "Profession, identité → <b>ser</b>."],
+    ["¡Qué guapa ___ hoy con ese vestido!", "tú", "estás", ["eres", "seas", "estés"], "Impression du moment, changement (<b>hoy, con ese vestido</b>) → estar."],
+    ["La sopa ___ fría, caliéntala.", "", "está", ["es", "son", "sea"], "État passager → <b>estar</b>."],
+    ["La reunión ___ a las cinco.", "", "es", ["está", "hay", "estará"], "Heure / date d'un événement → <b>ser</b>."],
+    ["Este libro ___ escrito por Cervantes.", "", "fue", ["estuvo", "había", "hubo"], "Voix passive (action + complément d'agent « por ») → <b>ser</b> + participe."],
+    ["Las ventanas ___ abiertas cuando llegué.", "", "estaban", ["eran", "serán", "sean"], "Résultat d'une action, état → <b>estar</b> + participe."],
+    ["Juan ___ muy aburrido: siempre habla de lo mismo.", "", "es", ["está", "esté", "son"], "<b>Ser aburrido</b> = être ennuyeux. Estar aburrido = s'ennuyer."],
+    ["___ de acuerdo contigo.", "yo", "Estoy", ["Soy", "Tengo", "Hay"], "Expression figée : <b>estar de acuerdo</b> (être d'accord)."],
+  ]},
+  { id: "porpara", kind: "g", name: "Por ou para", emoji: "🎯", items: [
+    ["Este regalo es ___ ti.", "", "para", ["por", "en", "a"], "Destinataire → <b>para</b>."],
+    ["Gracias ___ tu ayuda.", "", "por", ["para", "de", "con"], "Cause, remerciement → <b>por</b>."],
+    ["Estudio español ___ trabajar en México.", "", "para", ["por", "de", "a"], "But, objectif (+ infinitif) → <b>para</b>."],
+    ["Paseamos ___ el parque.", "", "por", ["para", "de", "sin"], "Mouvement à travers un lieu → <b>por</b>."],
+    ["El tren ___ Sevilla sale a las ocho.", "", "para", ["por", "con", "sin"], "Direction, destination → <b>para</b>."],
+    ["Lo compré ___ diez euros.", "", "por", ["para", "de", "con"], "Prix, échange → <b>por</b>."],
+    ["Tiene que estar terminado ___ el lunes.", "", "para", ["por", "en", "de"], "Date limite → <b>para</b>."],
+    ["___ mí, es la mejor película del año.", "", "Para", ["Por", "A", "De"], "Opinion (selon moi) → <b>para</b> mí."],
+    ["Te llamo ___ teléfono.", "", "por", ["para", "en", "de"], "Moyen de communication → <b>por</b>."],
+    ["Fue construido ___ los romanos.", "", "por", ["para", "con", "en"], "Complément d'agent de la voix passive → <b>por</b>."],
+    ["___ ser extranjero, habla muy bien español.", "", "Para", ["Por", "Con", "De"], "<b>Para</b> = « pour quelqu'un qui est… » (comparaison avec ce qu'on attendrait)."],
+    ["Me quedé en casa ___ la lluvia.", "", "por", ["para", "con", "en"], "Cause → <b>por</b>."],
+  ]},
+
+  /* ---------------- VOCABULAIRE B2 ---------------- */
+  { id: "conn", kind: "v", name: "Connecteurs logiques", emoji: "🔗", items: [
+    ["sin embargo", "cependant", "Estudió mucho; sin embargo, suspendió el examen.", "opp"],
+    ["no obstante", "néanmoins", "El plan es caro; no obstante, merece la pena.", "opp"],
+    ["aun así", "malgré tout / quand même", "Llovía mucho; aun así, salimos a correr.", "opp"],
+    ["en cambio", "en revanche", "A mí me encanta el cine; a mi hermano, en cambio, no.", "contr"],
+    ["mientras que", "alors que (opposition)", "Ella es muy tranquila, mientras que él es nervioso.", "contr"],
+    ["sino", "mais (après une négation)", "No es francés, sino belga.", "contr"],
+    ["aunque", "même si / bien que", "Aunque esté cansado, iré a la fiesta.", "conc"],
+    ["a pesar de que", "malgré le fait que", "A pesar de que hacía frío, fuimos a la playa.", "conc"],
+    ["por más que", "avoir beau… (+ verbe)", "Por más que lo intento, no lo consigo.", "conc"],
+    ["por lo tanto", "par conséquent / donc", "No ha estudiado; por lo tanto, no aprobará.", "cons"],
+    ["así que", "alors / si bien que", "Estaba cansado, así que me acosté pronto.", "cons"],
+    ["de ahí que", "d'où le fait que (+ subj.)", "Llegó tarde, de ahí que esté de mal humor.", "cons"],
+    ["ya que", "puisque", "Ya que estás aquí, ayúdame.", "cause"],
+    ["puesto que", "étant donné que", "Puesto que no contestas, me voy.", "cause"],
+    ["dado que", "vu que", "Dado que hace mal tiempo, cancelamos el viaje.", "cause"],
+    ["debido a", "en raison de", "El vuelo se retrasó debido a la niebla.", "cause"],
+    ["para que", "pour que (+ subj.)", "Te lo repito para que no lo olvides.", "but"],
+    ["a fin de que", "afin que (+ subj.)", "Hablaré despacio a fin de que todos me entiendan.", "but"],
+    ["con tal de que", "pourvu que (+ subj.)", "Te lo presto con tal de que me lo devuelvas.", "cond"],
+    ["siempre que (+ subj.)", "à condition que", "Puedes salir siempre que vuelvas antes de las doce.", "cond"],
+    ["a menos que", "à moins que", "Iremos a pie, a menos que llueva.", "cond"],
+    ["en caso de que", "au cas où", "En caso de que no pueda venir, te aviso.", "cond"],
+    ["además", "de plus / en outre", "Es barato y, además, muy bonito.", "add"],
+    ["asimismo", "de même / également", "El director agradeció, asimismo, la ayuda de todos.", "add"],
+    ["es decir", "c'est-à-dire", "Vendré pasado mañana, es decir, el jueves.", "refo"],
+    ["o sea", "autrement dit", "Mañana es fiesta, o sea, no hay clase.", "refo"],
+    ["en resumen", "en résumé", "En resumen, el proyecto ha sido un éxito.", "concl"],
+    ["en definitiva", "en fin de compte", "En definitiva, no tenemos otra opción.", "concl"],
+    ["en cuanto", "dès que", "En cuanto llegue, te llamo.", "time"],
+    ["a medida que", "au fur et à mesure que", "A medida que pasan los años, aprendo más.", "time"],
+    ["en cuanto a", "quant à / en ce qui concerne", "En cuanto a tu pregunta, no sé la respuesta.", "topic"],
+    ["por cierto", "au fait / à propos", "Por cierto, ¿has visto a Luis?", "topic"],
+    ["de hecho", "en fait / d'ailleurs", "No es caro; de hecho, es bastante barato.", "topic"],
+  ]},
+  { id: "expr", kind: "v", name: "Expressions idiomatiques", emoji: "💬", items: [
+    ["meter la pata", "faire une gaffe", "Metí la pata al hablar de su ex."],
+    ["tomar el pelo a alguien", "se moquer de qqn / faire marcher qqn", "¿Me estás tomando el pelo?"],
+    ["estar hasta las narices", "en avoir ras-le-bol", "Estoy hasta las narices de este ruido."],
+    ["ponerse las pilas", "se secouer / s'y mettre sérieusement", "Si quieres aprobar, ponte las pilas."],
+    ["costar un ojo de la cara", "coûter les yeux de la tête", "Este coche cuesta un ojo de la cara."],
+    ["no tener pelos en la lengua", "ne pas mâcher ses mots", "Mi abuela no tiene pelos en la lengua."],
+    ["estar en las nubes", "être dans la lune", "Hoy estás en las nubes, ¿qué te pasa?"],
+    ["ser pan comido", "être du gâteau (très facile)", "El examen fue pan comido."],
+    ["hacer la vista gorda", "fermer les yeux (sur qqch)", "El profesor hizo la vista gorda."],
+    ["llover a cántaros", "pleuvoir des cordes", "No salgas, está lloviendo a cántaros."],
+    ["estar como una cabra", "être complètement fou", "Tu vecino está como una cabra."],
+    ["tirar la toalla", "jeter l'éponge", "No tires la toalla, ¡casi lo tienes!"],
+    ["dar en el clavo", "mettre dans le mille", "Con tu comentario has dado en el clavo."],
+    ["ir al grano", "aller droit au but", "No tengo tiempo, ve al grano."],
+    ["pedir peras al olmo", "demander l'impossible", "Pedirle puntualidad es pedir peras al olmo."],
+    ["en un abrir y cerrar de ojos", "en un clin d'œil", "Lo hizo en un abrir y cerrar de ojos."],
+    ["quedarse de piedra", "rester sans voix / pétrifié", "Me quedé de piedra al ver la noticia."],
+    ["tener mala leche", "avoir un sale caractère", "Cuidado, el jefe tiene mala leche."],
+    ["echar una mano", "donner un coup de main", "¿Me echas una mano con las maletas?"],
+    ["no pegar ojo", "ne pas fermer l'œil (de la nuit)", "Anoche no pegué ojo."],
+    ["ser uña y carne", "être inséparables", "Ana y Lucía son uña y carne."],
+    ["estar en el quinto pino", "être au bout du monde (très loin)", "Su casa está en el quinto pino."],
+    ["dar gato por liebre", "rouler qqn (tromper sur la marchandise)", "En esa tienda te dan gato por liebre."],
+    ["consultarlo con la almohada", "la nuit porte conseil", "No decidas ahora, consúltalo con la almohada."],
+    ["tener la sartén por el mango", "tenir les rênes", "En esta empresa, ella tiene la sartén por el mango."],
+    ["buscarle tres pies al gato", "chercher midi à quatorze heures", "No le busques tres pies al gato."],
+    ["estar como pez en el agua", "être comme un poisson dans l'eau", "En la playa está como pez en el agua."],
+    ["hablar por los codos", "être un vrai moulin à paroles", "Mi primo habla por los codos."],
+    ["importar un pimiento", "s'en ficher complètement", "Me importa un pimiento lo que digan."],
+    ["estar al tanto", "être au courant", "¿Estás al tanto de las novedades?"],
+    ["a lo mejor", "peut-être (bien) (+ indicatif)", "A lo mejor vamos al cine esta noche."],
+    ["dar la lata", "casser les pieds", "¡Deja de dar la lata!"],
+    ["más vale tarde que nunca", "mieux vaut tard que jamais", "Por fin has llegado: ¡más vale tarde que nunca!"],
+    ["no hay mal que por bien no venga", "à quelque chose malheur est bon", "Perdí el tren, pero conocí a Ana: no hay mal que por bien no venga."],
+  ]},
+  { id: "verb", kind: "v", name: "Périphrases & verbes clés", emoji: "⚙️", items: [
+    ["darse cuenta de", "se rendre compte de", "No me di cuenta de la hora."],
+    ["echar de menos", "regretter l'absence de (qqn me manque)", "Echo de menos a mi familia.", "regret"],
+    ["arrepentirse de", "regretter (avoir fait qqch)", "Me arrepiento de lo que dije.", "regret"],
+    ["soler + infinitif", "avoir l'habitude de", "Suelo levantarme a las siete."],
+    ["acabar de + infinitif", "venir de (passé récent)", "Acabo de llegar."],
+    ["volver a + infinitif", "refaire / faire de nouveau", "No vuelvas a hacerlo."],
+    ["dejar de + infinitif", "arrêter de", "He dejado de fumar."],
+    ["llevar + durée + gérondif", "faire qqch depuis (durée)", "Llevo dos años estudiando español."],
+    ["seguir + gérondif", "continuer à", "Sigue lloviendo."],
+    ["ponerse a + infinitif", "se mettre à", "Se puso a llorar."],
+    ["estar a punto de", "être sur le point de", "Estaba a punto de salir."],
+    ["tener que ver con", "avoir un rapport avec", "Eso no tiene nada que ver con el tema."],
+    ["hacerse", "devenir (par ses efforts / sa volonté)", "Se hizo rico con su empresa.", "dev"],
+    ["volverse", "devenir (changement profond)", "Se ha vuelto muy egoísta.", "dev"],
+    ["ponerse + adjectif", "devenir (changement passager)", "Se puso rojo de vergüenza.", "dev"],
+    ["quedarse + adjectif", "devenir (suite à un événement)", "Se quedó ciego tras el accidente.", "dev"],
+    ["llegar a ser", "finir par devenir (après un long parcours)", "Llegó a ser ministro.", "dev"],
+    ["hacer caso a", "écouter / tenir compte de (qqn)", "Nunca me haces caso."],
+    ["tener en cuenta", "prendre en compte", "Hay que tener en cuenta el precio."],
+    ["llevarse bien con", "bien s'entendre avec", "Me llevo bien con mis compañeros."],
+    ["aprovechar", "profiter de", "Aprovecha el tiempo libre."],
+    ["lograr", "réussir à / parvenir à", "Logró terminar la carrera."],
+    ["acordarse de", "se souvenir de", "¿Te acuerdas de mí?"],
+    ["atreverse a", "oser", "No me atrevo a decírselo."],
+    ["equivocarse", "se tromper", "Perdona, me he equivocado."],
+    ["quedar con", "avoir rendez-vous avec", "He quedado con Ana a las ocho."],
+  ]},
 ];
 
-const WORDS = [];
-THEMES.forEach(t => t.words.forEach(([es, fr]) => WORDS.push({ es, fr, theme: t.id, emoji: t.emoji })));
-const THEME_BY_ID = Object.fromEntries(THEMES.map(t => [t.id, t]));
+const ITEMS = [];
+THEMES.forEach(t => t.items.forEach(row => {
+  if (t.kind === "g") {
+    const [q, h, a, d, why] = row;
+    ITEMS.push({ kind: "g", id: "g:" + q, q, h, a, d, why, theme: t.id, emoji: t.emoji });
+  } else {
+    const [es, fr, ex, syn] = row;
+    ITEMS.push({ kind: "v", id: "v:" + es, es, fr, ex, syn, theme: t.id, emoji: t.emoji });
+  }
+}));
+
+/* --- affichage des phrases à trous --- */
+function gapQuestion(it) {
+  const hint = it.h ? ` <span class="inf">(${it.h})</span>` : "";
+  return it.q.replace("___", `<span class="blank">&nbsp;</span>${hint}`);
+}
+function gapFull(it) { return it.q.replace("___", `<span class="ans">${it.a}</span>`); }
+function gapPlain(it) { return it.q.replace(/^«.*?» → /, "").replace("___", it.a); }
+function speechText(it) { return it.kind === "g" ? gapPlain(it) : it.es.replace(/\(.*?\)|\+.*$/g, ""); }
 
 /* =========================================================
    SAUVEGARDE (localStorage)
-   Chaque mot a une « boîte » de 0 à 5 (système de Leitner) :
+   Chaque élément a une « boîte » de 0 à 5 (système de Leitner) :
    bonne réponse → boîte +1, mauvaise réponse → retour à 0.
    ========================================================= */
-const STORE_KEY = "vocab-espagnol-v1";
+const STORE_KEY = "vocab-espagnol-b2-v1";
 const MAX_BOX = 5, MASTER_BOX = 4;
 let state = load();
 
 function load() {
-  const empty = { words: {}, selected: THEMES.map(t => t.id), cardDir: "es", streak: 0, lastDay: null };
+  const empty = { items: {}, selected: THEMES.map(t => t.id), cardDir: "es", streak: 0, lastDay: null };
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
     if (s && typeof s === "object") return Object.assign(empty, s);
   } catch (e) {}
   return empty;
 }
-function save() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
-}
-function ws(w) { return state.words[w.es] || { box: 0, ok: 0, ko: 0, seen: 0, last: 0 }; }
-function status(w) {
-  const s = state.words[w.es];
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+function st(it) { return state.items[it.id] || { box: 0, ok: 0, ko: 0, seen: 0, last: 0 }; }
+function status(it) {
+  const s = state.items[it.id];
   if (!s || !s.seen) return "new";
   return s.box >= MASTER_BOX ? "master" : "learn";
 }
-function today() { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function dayStr(d) { return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function today() { return dayStr(new Date()); }
+function yesterday() { const y = new Date(); y.setDate(y.getDate() - 1); return dayStr(y); }
 function touchStreak() {
   const t = today();
   if (state.lastDay === t) return;
-  const y = new Date(); y.setDate(y.getDate() - 1);
-  const yest = y.getFullYear() + "-" + (y.getMonth() + 1) + "-" + y.getDate();
-  state.streak = state.lastDay === yest ? (state.streak || 0) + 1 : 1;
+  state.streak = state.lastDay === yesterday() ? (state.streak || 0) + 1 : 1;
   state.lastDay = t;
 }
-function record(w, correct) {
-  const s = ws(w);
+function record(it, correct) {
+  const s = st(it);
   s.seen++; s.last = Date.now();
   if (correct) { s.ok++; s.box = Math.min(MAX_BOX, s.box + 1); }
   else { s.ko++; s.box = 0; }
-  state.words[w.es] = s;
+  state.items[it.id] = s;
   touchStreak();
   save();
 }
 
 /* =========================================================
-   CHOIX DES MOTS : les mots ratés reviennent plus souvent
+   CHOIX DES ÉLÉMENTS : les erreurs reviennent plus souvent
    ========================================================= */
-function pool() {
-  const p = WORDS.filter(w => state.selected.includes(w.theme));
-  return p.length ? p : WORDS;
+function pool(kind) {
+  let p = ITEMS.filter(it => state.selected.includes(it.theme) && (!kind || it.kind === kind));
+  if (!p.length) {
+    p = ITEMS.filter(it => !kind || it.kind === kind);
+    if (state.selected.length) toast(kind === "g" ? "Aucun thème de grammaire choisi : tous sont utilisés" : "Aucun thème de vocabulaire choisi : tous sont utilisés");
+  }
+  return p;
 }
-function weight(w) {
-  const s = state.words[w.es];
-  if (!s || !s.seen) return 6;                      // mot nouveau
+function weight(it) {
+  const s = state.items[it.id];
+  if (!s || !s.seen) return 6;                      // jamais vu
   let wt = Math.pow(2, MAX_BOX - s.box);            // boîte 0 → 32, boîte 5 → 1
-  if (s.ko > s.ok) wt *= 1.5;                       // mot souvent raté
-  const minutes = (Date.now() - s.last) / 60000;
-  if (minutes < 1) wt *= 0.15;                      // vu à l'instant
+  if (s.ko > s.ok) wt *= 1.5;                       // souvent raté
+  if ((Date.now() - s.last) / 60000 < 1) wt *= 0.15; // vu à l'instant
   return wt;
 }
-function pickWords(n) {
-  const p = pool().slice();
+function pick(n, kind) {
+  const p = pool(kind).slice();
   const out = [];
   n = Math.min(n, p.length);
   while (out.length < n) {
-    const total = p.reduce((a, w) => a + weight(w), 0);
-    let r = Math.random() * total;
-    let i = 0;
+    const total = p.reduce((a, it) => a + weight(it), 0);
+    let r = Math.random() * total, i = 0;
     for (; i < p.length - 1; i++) { r -= weight(p[i]); if (r <= 0) break; }
     out.push(p.splice(i, 1)[0]);
   }
@@ -512,8 +692,8 @@ if ("speechSynthesis" in window) { loadVoice(); speechSynthesis.onvoiceschanged 
 function speak(text) {
   if (!("speechSynthesis" in window)) { toast("Synthèse vocale indisponible"); return; }
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[¿?¡!]/g, ""));
-  u.lang = "es-ES"; u.rate = 0.85;
+  const u = new SpeechSynthesisUtterance(text.replace(/[¿?¡!«»]/g, ""));
+  u.lang = "es-ES"; u.rate = 0.9;
   if (esVoice) u.voice = esVoice;
   speechSynthesis.speak(u);
 }
@@ -532,44 +712,45 @@ document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", 
 let toastTimer;
 function toast(msg) {
   const t = $("toast"); t.textContent = msg; t.classList.add("show");
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
 }
 
 /* =========================================================
    ACCUEIL
    ========================================================= */
-function counts(words) {
+function counts(items) {
   const c = { master: 0, learn: 0, new: 0 };
-  words.forEach(w => c[status(w)]++);
+  items.forEach(it => c[status(it)]++);
   return c;
 }
 function renderHome() {
-  const c = counts(WORDS);
+  const c = counts(ITEMS);
   $("h-master").textContent = c.master;
-  $("h-review").textContent = WORDS.filter(w => { const s = state.words[w.es]; return s && s.seen && s.box < 2; }).length;
-  const streakOk = state.lastDay === today() || (() => { const y = new Date(); y.setDate(y.getDate() - 1); return state.lastDay === y.getFullYear() + "-" + (y.getMonth() + 1) + "-" + y.getDate(); })();
+  $("h-master-lbl").textContent = `maîtrisés sur ${ITEMS.length}`;
+  $("h-review").textContent = ITEMS.filter(it => { const s = state.items[it.id]; return s && s.seen && s.box < 2; }).length;
+  const streakOk = state.lastDay === today() || state.lastDay === yesterday();
   $("h-streak").textContent = (streakOk ? state.streak : 0) + "🔥";
-  $("h-bar").style.width = (c.master / WORDS.length * 100) + "%";
+  $("h-bar").style.width = (c.master / ITEMS.length * 100) + "%";
 
-  const box = $("themes"); box.innerHTML = "";
-  THEMES.forEach(t => {
-    const ws_ = WORDS.filter(w => w.theme === t.id);
-    const tc = counts(ws_);
-    const on = state.selected.includes(t.id);
-    const b = document.createElement("button");
-    b.className = "theme " + (on ? "on" : "off");
-    b.innerHTML = `<div class="t-head"><span class="t-emoji">${t.emoji}</span>${t.name}</div>
-      <div class="t-sub">${tc.master}/${ws_.length} maîtrisés</div>
-      <div class="mini-bar"><div class="m" style="width:${tc.master / ws_.length * 100}%"></div><div class="l" style="width:${tc.learn / ws_.length * 100}%"></div></div>`;
-    b.onclick = () => {
-      if (on) state.selected = state.selected.filter(x => x !== t.id);
-      else state.selected.push(t.id);
-      save(); renderHome();
-    };
-    box.appendChild(b);
+  ["g", "v"].forEach(kind => {
+    const box = $("themes-" + kind); box.innerHTML = "";
+    THEMES.filter(t => t.kind === kind).forEach(t => {
+      const its = ITEMS.filter(it => it.theme === t.id), tc = counts(its);
+      const on = state.selected.includes(t.id);
+      const b = document.createElement("button");
+      b.className = "theme " + (on ? "on" : "off");
+      b.innerHTML = `<div class="t-head"><span class="t-emoji">${t.emoji}</span>${t.name}</div>
+        <div class="t-sub">${tc.master}/${its.length} maîtrisés</div>
+        <div class="mini-bar"><div class="m" style="width:${tc.master / its.length * 100}%"></div><div class="l" style="width:${tc.learn / its.length * 100}%"></div></div>`;
+      b.onclick = () => {
+        if (on) state.selected = state.selected.filter(x => x !== t.id); else state.selected.push(t.id);
+        save(); renderHome();
+      };
+      box.appendChild(b);
+    });
   });
-  const nSel = pool().length;
-  $("sel-count").textContent = state.selected.length ? `· ${nSel} mots` : "· aucun (tous utilisés)";
+  const n = ITEMS.filter(it => state.selected.includes(it.theme)).length;
+  $("sel-count").textContent = state.selected.length ? `· ${n} éléments` : "· aucun (tous utilisés)";
   $("toggle-all").textContent = state.selected.length === THEMES.length ? "Tout désélectionner" : "Tout sélectionner";
 }
 $("toggle-all").onclick = () => {
@@ -578,8 +759,7 @@ $("toggle-all").onclick = () => {
 };
 document.querySelectorAll("[data-start]").forEach(b => b.addEventListener("click", () => {
   const m = b.dataset.start;
-  if (m === "cards") startCards();
-  else startQuiz(m.split("-")[1]);
+  if (m === "cards") startCards(); else startQuiz(m);
 }));
 
 /* =========================================================
@@ -591,22 +771,30 @@ let lastMode = null;
 
 function startCards() {
   lastMode = "cards";
-  cards = { list: pickWords(CARD_SESSION), i: 0, ok: 0, missed: [] };
+  cards = { list: pick(CARD_SESSION), i: 0, ok: 0, missed: [] };
   document.querySelectorAll("#c-dir button").forEach(b => b.classList.toggle("sel", b.dataset.dir === state.cardDir));
   show("cards");
   renderCard();
 }
 function renderCard() {
-  const w = cards.list[cards.i];
+  const it = cards.list[cards.i];
   const fc = $("flashcard");
   fc.style.transition = "none"; fc.classList.remove("flipped");
   void fc.offsetWidth; fc.style.transition = "";
-  const esFirst = state.cardDir === "es";
-  $("c-front").textContent = esFirst ? w.es : w.fr;
-  $("c-back").textContent = esFirst ? w.fr : w.es;
-  $("c-front-flag").textContent = esFirst ? "🇪🇸 Español" : "🇫🇷 Français";
-  $("c-back-flag").textContent = esFirst ? "🇫🇷 Français" : "🇪🇸 Español";
-  $("c-tag").textContent = w.emoji;
+  let front, back;
+  if (it.kind === "g") {
+    front = `<div class="flag">✏️ Complète la phrase</div><div class="word long">${gapQuestion(it)}</div>`;
+    back = `<div class="flag">Réponse</div><div class="word">${it.a}</div><div class="ex">${gapFull(it)}</div><div class="why">${it.why}</div>`;
+  } else {
+    const esFirst = state.cardDir === "es";
+    const esBlock = `<div class="word${it.es.length > 18 ? " long" : ""}">${it.es}</div>`;
+    const frBlock = `<div class="word${it.fr.length > 18 ? " long" : ""}">${it.fr}</div>`;
+    front = `<div class="flag">${esFirst ? "🇪🇸 Español" : "🇫🇷 Français"}</div>${esFirst ? esBlock : frBlock}`;
+    back = `<div class="flag">${esFirst ? "🇫🇷 Français" : "🇪🇸 Español"}</div>${esFirst ? frBlock : esBlock}<div class="ex">« ${it.ex} »</div>`;
+  }
+  $("c-front").innerHTML = front + `<div class="theme-tag">${it.emoji}</div><div class="hint">👆 Touche pour retourner</div>`;
+  $("c-back").innerHTML = back + `<div class="hint">Tu le savais ?</div>`;
+  $("c-dir").style.visibility = it.kind === "g" ? "hidden" : "";
   $("c-count").textContent = (cards.i + 1) + "/" + cards.list.length;
   $("c-prog").style.width = (cards.i / cards.list.length * 100) + "%";
   $("c-ok").disabled = $("c-ko").disabled = true;
@@ -614,21 +802,21 @@ function renderCard() {
 $("flashcard").addEventListener("click", () => {
   const fc = $("flashcard");
   fc.classList.toggle("flipped");
-  if (fc.classList.contains("flipped")) {
-    $("c-ok").disabled = $("c-ko").disabled = false;
-    if (state.cardDir === "fr") speak(cards.list[cards.i].es);
-  }
+  if (fc.classList.contains("flipped")) $("c-ok").disabled = $("c-ko").disabled = false;
 });
-$("c-say").onclick = () => speak(cards.list[cards.i].es);
+$("c-say").onclick = () => {
+  const it = cards.list[cards.i];
+  speak(it.kind === "v" && $("flashcard").classList.contains("flipped") ? it.ex : speechText(it));
+};
 document.querySelectorAll("#c-dir button").forEach(b => b.onclick = () => {
   state.cardDir = b.dataset.dir; save();
   document.querySelectorAll("#c-dir button").forEach(x => x.classList.toggle("sel", x === b));
   renderCard();
 });
 function answerCard(correct) {
-  const w = cards.list[cards.i];
-  record(w, correct);
-  if (correct) cards.ok++; else cards.missed.push(w);
+  const it = cards.list[cards.i];
+  record(it, correct);
+  if (correct) cards.ok++; else cards.missed.push(it);
   cards.i++;
   if (cards.i >= cards.list.length) showResult(cards.ok, cards.list.length, cards.missed);
   else renderCard();
@@ -638,118 +826,136 @@ $("c-ko").onclick = () => answerCard(false);
 
 /* =========================================================
    QUIZ À CHOIX MULTIPLES
+   modes : gram (phrases à trous), es (es → fr), fr (fr → es), mix
    ========================================================= */
 const QUIZ_SESSION = 10;
-let quiz = { list: [], i: 0, ok: 0, missed: [], mode: "es", dir: "es" };
+const QUIZ_TITLES = { gram: "Grammaire & temps", es: "Comprendre 🇪🇸 → 🇫🇷", fr: "Produire 🇫🇷 → 🇪🇸", mix: "Quiz mélangé" };
+let quiz = {};
 
 function startQuiz(mode) {
-  lastMode = "quiz-" + mode;
-  quiz = { list: pickWords(QUIZ_SESSION), i: 0, ok: 0, missed: [], mode, dir: "es" };
-  $("q-title").textContent = mode === "es" ? "Espagnol → Français" : mode === "fr" ? "Français → Espagnol" : "Quiz mélangé";
+  lastMode = mode;
+  const kind = mode === "gram" ? "g" : (mode === "es" || mode === "fr") ? "v" : null;
+  quiz = { list: pick(QUIZ_SESSION, kind), i: 0, ok: 0, missed: [], mode, dir: "es", answer: "" };
+  $("q-title").textContent = QUIZ_TITLES[mode];
   show("quiz");
   renderQuestion();
 }
-function distractors(w, field, n) {
-  const answer = w[field];
-  const same = shuffle(WORDS.filter(x => x.theme === w.theme && x[field] !== answer));
-  const other = shuffle(WORDS.filter(x => x.theme !== w.theme && x[field] !== answer));
+function vocabDistractors(it, field) {
+  const ok = x => x.kind === "v" && x !== it && x[field] !== it[field] && !(it.syn && x.syn === it.syn);
+  const same = shuffle(ITEMS.filter(x => ok(x) && x.theme === it.theme));
+  const other = shuffle(ITEMS.filter(x => ok(x) && x.theme !== it.theme));
   const res = [];
   for (const x of same.concat(other)) {
-    if (res.length >= n) break;
+    if (res.length >= 3) break;
     if (!res.includes(x[field])) res.push(x[field]);
   }
   return res;
 }
 function renderQuestion() {
-  const w = quiz.list[quiz.i];
-  quiz.dir = quiz.mode === "mix" ? (Math.random() < .5 ? "es" : "fr") : quiz.mode;
-  const askEs = quiz.dir === "es";
-  const field = askEs ? "fr" : "es";
-  $("q-label").textContent = askEs ? "🇪🇸 Que veut dire…" : "🇫🇷 Comment dit-on en espagnol…";
-  $("q-word").textContent = askEs ? w.es : w.fr;
-  $("q-say").style.display = askEs ? "" : "none";
+  const it = quiz.list[quiz.i];
+  let opts;
+  const qw = $("q-word");
+  if (it.kind === "g") {
+    quiz.dir = "gap";
+    $("q-label").textContent = "✏️ Complète la phrase";
+    qw.innerHTML = gapQuestion(it);
+    qw.className = "q-word long";
+    quiz.answer = it.a;
+    opts = [it.a, ...it.d];
+  } else {
+    quiz.dir = quiz.mode === "mix" ? (Math.random() < .5 ? "es" : "fr") : quiz.mode;
+    const askEs = quiz.dir === "es";
+    const field = askEs ? "fr" : "es";
+    $("q-label").textContent = askEs ? "🇪🇸 Que veut dire…" : "🇫🇷 Comment dit-on en espagnol…";
+    qw.textContent = askEs ? it.es : it.fr;
+    qw.className = "q-word" + (qw.textContent.length > 22 ? " long" : "");
+    quiz.answer = it[field];
+    opts = [it[field], ...vocabDistractors(it, field)];
+  }
+  $("q-say").style.display = quiz.dir === "es" ? "" : "none";
   $("q-count").textContent = (quiz.i + 1) + "/" + quiz.list.length;
   $("q-prog").style.width = (quiz.i / quiz.list.length * 100) + "%";
   $("feedback").innerHTML = "";
 
-  const opts = shuffle([w[field], ...distractors(w, field, 3)]);
   const box = $("options"); box.innerHTML = "";
-  opts.forEach(o => {
+  shuffle(opts).forEach(o => {
     const b = document.createElement("button");
     b.className = "opt"; b.textContent = o;
-    b.onclick = () => answerQuiz(b, o === w[field]);
+    b.onclick = () => answerQuiz(b, o === quiz.answer);
     box.appendChild(b);
   });
-  if (askEs) setTimeout(() => speak(w.es), 250);
+  if (quiz.dir === "es") setTimeout(() => speak(speechText(it)), 250);
 }
-$("q-say").onclick = () => speak(quiz.list[quiz.i].es);
+$("q-say").onclick = () => { const it = quiz.list[quiz.i]; speak(speechText(it)); };
 function answerQuiz(btn, correct) {
-  const w = quiz.list[quiz.i];
-  const field = quiz.dir === "es" ? "fr" : "es";
-  const all = [...document.querySelectorAll(".opt")];
-  all.forEach(b => {
+  const it = quiz.list[quiz.i];
+  document.querySelectorAll(".opt").forEach(b => {
     b.disabled = true;
-    if (b.textContent === w[field]) b.classList.add("correct");
+    if (b.textContent === quiz.answer) b.classList.add("correct");
     else if (b !== btn) b.classList.add("dim");
   });
-  record(w, correct);
-  if (correct) {
-    quiz.ok++;
-    if (quiz.dir === "fr") speak(w.es);
-    $("feedback").innerHTML = `<div style="width:100%;text-align:center;font-size:24px;font-weight:800;color:var(--good)">✅ ¡Muy bien!</div>`;
-    setTimeout(nextQuestion, 1000);
-  } else {
-    btn.classList.add("wrong");
-    quiz.missed.push(w);
-    speak(w.es);
-    $("feedback").innerHTML = `<button class="big-btn primary" id="q-next">Continuer →</button>`;
-    $("q-next").onclick = nextQuestion;
-  }
+  record(it, correct);
+  if (correct) quiz.ok++; else { btn.classList.add("wrong"); quiz.missed.push(it); }
+
+  const verdict = correct
+    ? `<div class="verdict" style="color:var(--good)">✅ ¡Muy bien!</div>`
+    : `<div class="verdict" style="color:var(--bad)">❌ Réponse : ${quiz.answer}</div>`;
+  const detail = it.kind === "g"
+    ? `<div class="full">${gapFull(it)}</div><div>💡 ${it.why}</div>`
+    : `<div class="full">${it.es} = ${it.fr}</div><div><i>« ${it.ex} »</i></div>`;
+  $("feedback").innerHTML = `<div class="note">${verdict}${detail}</div><button class="big-btn primary" id="q-next">Continuer →</button>`;
+  $("q-next").onclick = nextQuestion;
+  speak(it.kind === "g" ? gapPlain(it) : it.ex);
+  $("feedback").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 function nextQuestion() {
   quiz.i++;
   if (quiz.i >= quiz.list.length) showResult(quiz.ok, quiz.list.length, quiz.missed);
-  else renderQuestion();
+  else { renderQuestion(); window.scrollTo(0, 0); }
 }
 
 /* =========================================================
    RÉSULTAT
    ========================================================= */
+function itemRow(it, chip = "") {
+  if (it.kind === "g")
+    return `<div class="row stack"><div class="es">${it.emoji} ${gapFull(it)} ${chip}</div><div class="fr">💡 ${it.why}</div></div>`;
+  return `<div class="row"><span>${it.emoji}</span><span class="es">${it.es}</span><span class="fr">${it.fr}</span>${chip}</div>`;
+}
 function showResult(ok, total, missed) {
   const r = ok / total;
   $("r-emoji").textContent = r === 1 ? "🏆" : r >= .8 ? "🎉" : r >= .5 ? "💪" : "📚";
   $("r-score").textContent = ok + "/" + total;
-  $("r-msg").textContent = r === 1 ? "¡Perfecto! Aucune erreur !" : r >= .8 ? "¡Muy bien! Excellent travail." : r >= .5 ? "¡Bien! Continue comme ça." : "¡Ánimo! Ces mots reviendront plus souvent.";
-  const uniq = [...new Map(missed.map(w => [w.es, w])).values()];
-  $("r-list").innerHTML = uniq.length ? `<div class="section-title"><span>Mots à revoir</span></div><div class="list">` +
-    uniq.map(w => `<div class="row"><span>${w.emoji}</span><span class="es">${w.es}</span><span class="fr">${w.fr}</span></div>`).join("") + `</div>` : "";
+  $("r-msg").textContent = r === 1 ? "¡Perfecto! Aucune erreur !" : r >= .8 ? "¡Muy bien! Excellent travail." : r >= .5 ? "¡Bien! Continue comme ça." : "¡Ánimo! Ces points reviendront plus souvent.";
+  const uniq = [...new Map(missed.map(it => [it.id, it])).values()];
+  $("r-list").innerHTML = uniq.length ? `<div class="section-title"><span>À revoir</span></div><div class="list">` +
+    uniq.map(it => itemRow(it)).join("") + `</div>` : "";
   show("result");
 }
-$("r-again").onclick = () => {
-  if (lastMode === "cards") startCards(); else startQuiz(lastMode.split("-")[1]);
-};
+$("r-again").onclick = () => { if (lastMode === "cards") startCards(); else startQuiz(lastMode); };
 
 /* =========================================================
    PROGRESSION
    ========================================================= */
 function renderProgress() {
-  const c = counts(WORDS);
+  const c = counts(ITEMS);
   $("p-master").textContent = c.master; $("p-learn").textContent = c.learn; $("p-new").textContent = c.new;
   $("p-themes").innerHTML = THEMES.map(t => {
-    const ws_ = WORDS.filter(w => w.theme === t.id), tc = counts(ws_);
-    return `<div class="theme-row"><div class="tr-head"><span>${t.emoji} ${t.name}</span><span>${tc.master}/${ws_.length}</span></div>
-      <div class="mini-bar"><div class="m" style="width:${tc.master / ws_.length * 100}%"></div><div class="l" style="width:${tc.learn / ws_.length * 100}%"></div></div></div>`;
+    const its = ITEMS.filter(it => it.theme === t.id), tc = counts(its);
+    return `<div class="theme-row"><div class="tr-head"><span>${t.emoji} ${t.name}</span><span>${tc.master}/${its.length}</span></div>
+      <div class="mini-bar"><div class="m" style="width:${tc.master / its.length * 100}%"></div><div class="l" style="width:${tc.learn / its.length * 100}%"></div></div></div>`;
   }).join("");
-  const hard = WORDS.filter(w => ws(w).ko > 0).sort((a, b) => (ws(b).ko - ws(b).ok) - (ws(a).ko - ws(a).ok) || ws(b).ko - ws(a).ko).slice(0, 10);
-  $("p-hard").innerHTML = hard.length ? `<div class="list" style="margin-top:0">` + hard.map(w => {
-    const st = status(w), s = ws(w);
-    const chip = st === "master" ? `<span class="word-chip chip-master">maîtrisé</span>` : `<span class="word-chip chip-learn">${s.ko} ✗ · ${s.ok} ✓</span>`;
-    return `<div class="row"><span class="es">${w.es}</span><span class="fr">${w.fr}</span>${chip}</div>`;
-  }).join("") + `</div>` : `<div class="list" style="margin-top:0"><div class="row" style="color:var(--muted);justify-content:center">Aucune erreur pour l'instant 🎯</div></div>`;
+  const hard = ITEMS.filter(it => st(it).ko > 0)
+    .sort((a, b) => (st(b).ko - st(b).ok) - (st(a).ko - st(a).ok) || st(b).ko - st(a).ko).slice(0, 10);
+  $("p-hard").innerHTML = `<div class="list" style="margin-top:0">` + (hard.length ? hard.map(it => {
+    const s = st(it);
+    const chip = status(it) === "master" ? `<span class="word-chip chip-master">maîtrisé</span>` : `<span class="word-chip chip-learn">${s.ko} ✗ · ${s.ok} ✓</span>`;
+    return itemRow(it, chip);
+  }).join("") : `<div class="row" style="color:var(--muted);justify-content:center">Aucune erreur pour l'instant 🎯</div>`) + `</div>`;
 }
 $("reset").onclick = () => {
   if (confirm("Effacer toute ta progression ? Cette action est irréversible.")) {
-    state.words = {}; state.streak = 0; state.lastDay = null; save();
+    state.items = {}; state.streak = 0; state.lastDay = null; save();
     renderProgress(); toast("Progression remise à zéro");
   }
 };
